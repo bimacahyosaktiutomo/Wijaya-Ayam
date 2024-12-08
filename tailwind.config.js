@@ -23,5 +23,21 @@ export default {
         forms,
         require('daisyui'),
         require('flowbite/plugin'),
+        function({ addUtilities }) {
+            const newUtilities = {
+                '.hover-anim': {
+                transition : '300ms ease-in-out',
+                },
+                '.no-scrollbar::-webkit-scrollbar': {
+                display: 'none',
+                },
+                '.no-scrollbar': {
+                '-ms-overflow-style': 'none', // IE and Edge
+                'scrollbar-width': 'none',    // Firefox
+                },
+            };
+        
+            addUtilities(newUtilities, ['responsive', 'hover']);
+            },
     ],
 };

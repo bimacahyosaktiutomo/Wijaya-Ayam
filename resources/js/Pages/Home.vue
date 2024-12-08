@@ -1,5 +1,5 @@
 <script setup>
-import { Head, Link } from '@inertiajs/vue3';
+import { Head, Link, usePage } from '@inertiajs/vue3';
 import Footer from '@/Components/Footer.vue';
 import Header from '@/Components/Header.vue';
 
@@ -7,6 +7,8 @@ const props = defineProps({
   canLogin: Boolean,
   canRegister: Boolean,
 });
+
+const { products } = usePage().props;
 </script>
 
 <!-- Alternativ, bikin propsnya di script laen soalnya gak bisa di setup -->
@@ -24,8 +26,8 @@ const props = defineProps({
 </script>
 
 <template>
-  <Header :canLogin="canLogin" :canRegister="canRegister" />
   <div class="home">
+    <Header/>
     <section class="hero bg-home relative bg-cover bg-center h-screen">
       <div class="absolute inset-0 bg-gradient-to-r from-black via-transparent to-black opacity-70 z-0"></div>
       <div class="container mx-auto px-4 flex items-center justify-start h-full z-10">
@@ -37,7 +39,7 @@ const props = defineProps({
             Nikmati daging ayam potong berkualitas terbaik untuk keluarga Anda. Pesan sekarang dan rasakan bedanya!
           </p>
           <div class="mt-6">
-            <button class="btnStyle bg-yellow-500 hover:bg-yellow-600 text-white font-semibold px-6 py-3 rounded shadow-md transition">
+            <button class="btnStyle bg-amber-300 hover:bg-amber-400 text-black font-semibold px-6 py-3 rounded shadow-md transition">
               Pesan Sekarang
             </button>
           </div>
@@ -77,19 +79,19 @@ const props = defineProps({
     <section class="py-16 bg-gray-100">
       <div class="container mx-auto px-4">
         <div class="text-center mb-12">
-          <h2 class="text-3xl font-bold text-gray-800">Kategori Produk</h2>
+          <h2 class="text-3xl font-bold text-gray-800">Produk Kami</h2>
           <p class="text-gray-600 mt-2">
             Pilihan ayam potong segar dengan berbagai ukuran dan jenis untuk kebutuhan Anda.
           </p>
         </div>
 
         <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
-          <div class="bg-white rounded-lg shadow-md overflow-hidden">
-            <img src="../assets/background1.png" alt="Ayam Utuh" class="w-full h-48 object-cover" />
+          <div v-for="product in products.slice(0, 4)" class="bg-white rounded-lg shadow-md overflow-hidden">
+            <img :src="`storage/${product.gambar}`" alt="Ayam Utuh" class="w-full h-48 object-cover" />
             <div class="p-4">
-              <h3 class="text-xl font-semibold text-gray-800">Ayam Utuh</h3>
+              <h3 class="text-xl font-semibold text-gray-800">{{ product.nama_produk }}</h3>
               <p class="text-gray-600 mt-2">
-                Ayam potong segar utuh dengan berat sesuai kebutuhan Anda.
+                {{ product.deskripsi }}
               </p>
               <button class="btnStyle mt-4 bg-green-500 hover:bg-green-600 text-white font-semibold px-4 py-2 rounded transition">
                 Lihat Detail
@@ -97,7 +99,7 @@ const props = defineProps({
             </div>
           </div>
 
-          <div class="bg-white rounded-lg shadow-md overflow-hidden">
+          <!-- <div class="bg-white rounded-lg shadow-md overflow-hidden">
             <img src="../assets/background1.png" alt="Potongan Ayam" class="w-full h-48 object-cover" />
             <div class="p-4">
               <h3 class="text-xl font-semibold text-gray-800">Potongan Ayam</h3>
@@ -134,7 +136,7 @@ const props = defineProps({
                 Lihat Detail
               </button>
             </div>
-          </div>
+          </div> -->
 
         </div>
       </div>

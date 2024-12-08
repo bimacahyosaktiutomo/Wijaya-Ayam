@@ -43,7 +43,7 @@ class RegisteredUserController extends Controller
             'no_telepon' => $request->no_telepon,
             'password' => Hash::make($request->password),
         ]);
-
+        $user->assignRole('user');
         event(new Registered($user));
 
         Auth::login($user);

@@ -1,10 +1,5 @@
 <script setup>
 import { Link } from '@inertiajs/vue3';
-
-const props = defineProps({
-  canLogin: Boolean,
-  canRegister: Boolean,
-});
 </script>
 
 <!-- Alternativ, bikin propsnya di script laen soalnya gak bisa di setup -->
@@ -24,42 +19,63 @@ const props = defineProps({
       <div class="logo">Logo</div>
       <ul class="nav-links">
         <li>
-          <RouterLink to="/">
+          <Link :href="route('home')">
             <a>Home</a>
-          </RouterLink>
+          </Link>
         </li>
         <li>
-          <RouterLink to="/product">
+          <Link :href="route('product')">
             <a>Product</a>
-          </RouterLink>
+          </Link>
         </li>
         <li>
-          <RouterLink to="/about">
+          <Link :href="route('about')">
             <a>About</a>
-          </RouterLink>
+          </Link>
         </li>
       </ul>
       <div class="flex items-center space-x-4">
         <li class="cart">
-          <RouterLink to="/cart">
+          <Link to="/cart">
             <a class="cart-icon">
               <img src="../assets/shopping-cart.png" alt="Cart" />
             </a>
-          </RouterLink>
+          </Link>
         </li>
-        <li class="dropdown dropdown-hover dropdown-end">
+        <li v-if="$page.props.auth && $page.props.auth.user" class="dropdown dropdown-hover dropdown-end">
+          <div class="flex space-x-1 font-semibold">
+            <button class="text-xl"><i class="fa-solid fa-user"></i></button>
+            <h1 class="self-center text-lg">{{ $page.props.auth.user.name }}</h1>
+          </div>
+          <ul class="dropdown-content menu bg-base-100 rounded-box z-[1] w-40 p-2 shadow">
+            <li>
+              <Link 
+              :href="route('dashboard')">
+              Dashboard
+            </Link>
+          </li>
+          <li>
+            <Link 
+                :href="route('logout')" method="post" as="button"
+                class="text-red-500">
+                Logout
+              </Link>
+            </li>
+          </ul>
+        </li>
+        <li v-else class="dropdown dropdown-hover dropdown-end">
           <button class="text-xl"><i class="fa-solid fa-user"></i></button>
           <ul class="dropdown-content menu bg-base-100 rounded-box z-[1] w-40 p-2 shadow">
             <li>
               <Link 
-              v-if="canLogin"
+              v-if="$page.props.canLogin"
               :href="route('login')">
               Login
             </Link>
           </li>
           <li>
             <Link 
-                v-if="canRegister"
+                v-if="$page.props.canRegister"
                 :href="route('register')">
                 Register
               </Link>

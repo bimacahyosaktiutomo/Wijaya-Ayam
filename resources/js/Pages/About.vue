@@ -1,5 +1,11 @@
+<script setup>
+import Footer from '@/Components/Footer.vue';
+import Header from '@/Components/Header.vue';
+</script>
+
 <template>
   <div class="about">
+    <Header />
     <section class="hero bg-about relative bg-cover bg-center h-screen">
       <div class="absolute inset-0 bg-gradient-to-r from-black via-transparent to-black z-0"></div>
       <div class="container mx-auto px-4 flex items-center justify-start h-full z-10">
@@ -125,19 +131,9 @@
       </div>
     </div>
   </section>
-    <Footer/>
+  <Footer/>
   </div>
 </template>
-
-<script>
-import Footer from '../components/Footer.vue';
-export default {
-  name: "About",
-  components: {
-    Footer,
-  },
-};
-</script>
 
 <style>
 .bg-about {
