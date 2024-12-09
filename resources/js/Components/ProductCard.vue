@@ -1,31 +1,43 @@
 <script setup>
-import { defineProps } from 'vue';
+import { defineProps, defineEmits  } from 'vue';
+import { router } from '@inertiajs/vue3';
 
-defineProps({
+const props = defineProps({
   product: {
     type: Object,
     required: true,
   },
 });
+
+const emit = defineEmits(['add-to-cart']);
+
+const addToCartHandler = () => {
+  // Emit the 'add-to-cart' event with the product id
+  emit('add-to-cart', props.product.id_produk);
+};
 </script>
 
 <template>
   <div class="flex flex-col bg-white rounded-lg shadow-md hover:shadow-lg hover-anim">
     <div class="flex justify-center w-full bg-gray-100 rounded-t-md overflow-hidden">
-      <img :src="`storage/${product.gambar}`"
+      <img :src="`storage/${props.product.gambar}`"
         class="self-center w-full h-40 object-contain bg-white transition-transform duration-300 transform hover:scale-110" alt="">
     </div>
     <div class="flex flex-col p-3 h-36 space-y-1">
-      <div class="font-semibold truncate max-w-full">Rp. {{ product.harga }}</div>
-      <h3 class="line-clamp-2 max-w-full">{{ product.nama_produk }}</h3>
-      <p class="text-xs line-clamp-2 max-w-full">{{ product.deskripsi }}</p>
-      <button @click="$emit('add-to-cart', product)" 
+      <div class="font-semibold truncate max-w-full">Rp. {{ props.product.harga }}</div>
+      <h3 class="line-clamp-2 max-w-full">{{ props.product.nama_produk }}</h3>
+      <p class="text-xs line-clamp-2 max-w-full">{{ props.product.deskripsi }}</p>
+      <button @click="addToCartHandler" 
         class="self-end font-semibold p-2 rounded-md bg-amber-300 hover:bg-amber-400 hover-anim">
         + Keranjang
       </button>
     </div>
   </div>
 </template>
+
+<script>
+
+</script>
 
 <!-- <script lang="ts">
 import { defineComponent, PropType } from "vue";

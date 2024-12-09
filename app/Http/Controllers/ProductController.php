@@ -32,7 +32,7 @@ class ProductController extends Controller
     public function dashboard() {
         $products = Product::latest()->get();
 
-        return Inertia::render('Admin/Dashboard', [
+        return Inertia::render('Admin/ProductDashboard', [
             'products' => $products,
         ]);
     }
@@ -88,7 +88,7 @@ class ProductController extends Controller
             'gambar' => $imagePath,
         ]);
         
-        return Redirect::route('dashboard');
+        return Redirect::route('dashboard.product');
     }
     
 
@@ -109,6 +109,17 @@ class ProductController extends Controller
                 'message' => 'Product Tidak Ditemukan!',
                 'data'    => ''
             ], 404);
+        }
+    }
+
+    public function edit($id) { 
+        $products = Product::findOrFail($id);
+
+        if ($products) {
+            return Inertia::render('Admin/ProductForm', [
+                'product' => $products, 
+                'isEdit' => true,
+            ]);
         }
     }
 
@@ -139,7 +150,7 @@ class ProductController extends Controller
         }
 
         $product->update($validateData);
-        return Redirect::route('dashboard');
+        return Redirect::route('dashboard.product');
         // if ($product) {
         //     return response()->json([
         //         Product::findOrFail($id),
@@ -167,6 +178,6 @@ class ProductController extends Controller
         }
         
         $products->delete();
-        // return Redirect::route('dashboard');
+        // return Redirect::route('dashboard.product');
     }
 }

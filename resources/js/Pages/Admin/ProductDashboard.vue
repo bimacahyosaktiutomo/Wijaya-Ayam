@@ -9,7 +9,7 @@ const { products } = usePage().props;
         <div class="bg-white p-1 rounded-sm">
             <div class="flex justify-between px-8 my-4">
                 <h1 class="font-semibold text-xl">Product</h1>
-                <Link :href="route('dashboard.add')"
+                <Link :href="route('dashboard.product.add')"
                     class="bg-green-400 p-2 rounded-lg font-semibold hover:bg-green-500 hover-anim">
                     Tambah
                 </Link>
@@ -41,7 +41,7 @@ const { products } = usePage().props;
                             <img :src="`/storage/${item.gambar}`" alt="Product Image" class="w-20 h-auto">
                         </td>
                         <td class="flex justify-center px-4 py-2">
-                            <Link :href="route('dashboard.edit', { id: item.id_produk })">
+                            <Link :href="route('dashboard.product.edit', { id: item.id_produk })">
                                 <button class="bg-blue-500 text-white px-2 py-1 rounded mr-2 hover:bg-blue-600 hover-anim">
                                     <i class="fa-regular fa-pen-to-square"></i></button>
                             </Link>
@@ -79,7 +79,8 @@ function confirmDelete(itemsId, itemName) {
                         'Product berhasil dihapus.',
                         'success'
                     );
-                    router.visit('dashboard');
+                    // router.visit('dashboard/product');
+                    router.visit(route('dashboard.product'));
                 },
                 onError: () => {
                     Swal.fire(
@@ -99,7 +100,7 @@ function confirmDelete(itemsId, itemName) {
             //             'success'
             //         );
             //         // Optionally redirect after the deletion
-            //         Inertia.visit('/dashboard');
+            //         Inertia.visit('/dashboard/product');
             //     },
             //     onError: () => {
             //         Swal.fire(
@@ -111,14 +112,14 @@ function confirmDelete(itemsId, itemName) {
             // });
 
             // Named route
-            // router.delete(route(`dashboard.delete`, {id :itemsId}) , {
+            // router.delete(route(`dashboard.product.delete`, {id :itemsId}) , {
             //     onSuccess: () => {
             //         Swal.fire(
             //             'Deleted!',
             //             'Product berhasil dihapus.',
             //             'success'
             //         );
-            //         router.visit('dashboard');
+            //         router.visit('dashboard.product');
             //     },
             //     onError: () => {
             //         Swal.fire(
@@ -138,7 +139,7 @@ function confirmDelete(itemsId, itemName) {
             //             'Item berhasil dihapus.',
             //             'success'
             //         ).then(() => {
-            //             router.visit('dashboard');
+            //             router.visit('dashboard.product');
             //         });
             //     } else {
             //         Swal.fire(

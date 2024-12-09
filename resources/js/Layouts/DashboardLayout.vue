@@ -14,13 +14,13 @@ import { Link } from '@inertiajs/vue3';
             </div>
             <ul class="font-semibold md:text-lg text-gray-800 space-y-6 border-y-2 border-y-amber-100 py-8">
                 <li class="cursor-pointer hover-anim hover:text-gray-800">
-                    <Link :href="route('home')" class="sidebar-item flex justify-between items-center">
+                    <Link :href="route('dashboard.product')" class="sidebar-item flex justify-between items-center">
                         <i class="sidebar-icon w-1/3 fa-solid fa-boxes-stacked"></i>
                         <span class="w-full">Produk</span>
                     </Link>
                 </li>
                 <li class="cursor-pointer hover-anim hover:text-gray-800">
-                    <Link :href="route('home')" class="sidebar-item flex justify-between items-center">
+                    <Link :href="route('dashboard.user')" class="sidebar-item flex justify-between items-center">
                         <i class="sidebar-icon w-1/3 fa-solid fa-user"></i>
                         <span class="w-full">User</span>
                     </Link>

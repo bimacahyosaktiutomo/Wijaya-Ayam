@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use Inertia\Response;
+use Darryldecode\Cart\Facades\CartFacade as Cart;
 
 class AuthenticatedSessionController extends Controller
 {
@@ -32,6 +33,12 @@ class AuthenticatedSessionController extends Controller
         $request->authenticate();
 
         $request->session()->regenerate();
+
+        
+        if (session()->get(Auth::id() . '_cart')) {
+            $cart = session()->get(Auth::id() . '_cart');
+            Cart::session(Auth::id())->add($cart->toArray());
+        }
         
         return back();
         // return redirect()->intended(route('dashboard', absolute: false));
@@ -42,12 +49,21 @@ class AuthenticatedSessionController extends Controller
      */
     public function destroy(Request $request): RedirectResponse
     {
+        if (!Cart::session(Auth::id())->getContent()->isEmpty()) {
+            $cart = Cart::session(Auth::id())->getContent();
+            $auth_id = Auth::id();
+        }
+
         Auth::guard('web')->logout();
 
         $request->session()->invalidate();
 
         $request->session()->regenerateToken();
 
-        return redirect('/');
+        if (isset($cart, $auth_id)) {
+            session()->put($auth_id . '_cart', $cart);
+        }
+
+        return to_route('home');
     }
 }

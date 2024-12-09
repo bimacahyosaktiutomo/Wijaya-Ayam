@@ -13,21 +13,45 @@ use Inertia\Response;
 class UserController extends Controller
 {
     //
-    public function edit($id): Response
+    public function dashboard()
     {
-        $users = User::findOrFail($id);
-        return Inertia::render('Profile/Edit', [
-            'user' => $users,
+        $users = User::latest()->get();
+
+        return Inertia::render('Admin/UserDashboard', [
+            'users' => $users,
         ]);
     }
 
-    public function update(ProfileUpdateRequest $request, $id)
+    public function edit($id)
     {
         $users = User::findOrFail($id);
-        $request->$users->fill($request->validated());
+        return Inertia::render('Admin/UserForm', [
+            'users' => $users,
+        ]);
+    }
 
-        $request->user()->save();
+    public function update(Request $request, $id)
+    {
+        $users = User::findOrFail($id);
 
-        return Redirect::route('dashboard');
+        $validatedData = $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email,' . $id . ',id_pengguna', //Biar gak ngecek email dan no hp nya sendiri pake yg 
+            'no_telepon' => 'required|string|max:20|unique:users,no_telepon,' . $id . ',id_pengguna', // --> habis titik titik
+        ]);
+        $users->update($validatedData);
+
+        return Redirect::route('dashboard.user');
+    }
+
+    public function destroy($id)
+    {
+
+        $user = User::findOrFail($id);
+        if ($id != 1 && $user) {
+            $user->delete();
+        }
+
+        return Redirect::route('dashboard.user');
     }
 }

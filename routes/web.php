@@ -1,9 +1,9 @@
 <?php
 
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
-use App\Models\Product;
-use App\Models\User;
+use App\Http\Controllers\UserController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -18,28 +18,37 @@ use Inertia\Inertia;
 // })->name('home');
 Route::get('/', [ProductController::class, 'index'])->name('home');
 
+// JANGAN LUPA, NARO DI ROUTE PAKENYA {id} bukan {$id} 
+// JANGAN LUPA, NARO DI ROUTE PAKENYA {id} bukan {$id} 
+// JANGAN LUPA, NARO DI ROUTE PAKENYA {id} bukan {$id} 
+
 //Dashboard
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('/dashboard', [ProductController::class, 'dashboard'] )->name('dashboard');
-
     // Produk
-    Route::get('/dashboard/product/add', function () {return Inertia::render('Admin/ProductForm');})->name('dashboard.add');
-    Route::post('/dashboard/product/store/', [ProductController::class, 'store'] )->name('dashboard.store');
-    Route::get('/dashboard/product/edit/{id}', function ($id) {
-        $product = Product::findOrFail($id); 
-        return Inertia::render('Admin/ProductForm', [
-            'product' => $product, 
-            'isEdit' => true,
-        ]);
-    })->name('dashboard.edit');
-    Route::patch('/dashboard/product/update/{id}', [ProductController::class, 'update'] )->name('dashboard.update');
-    Route::delete('/dashboard/product/delete/{id}', [ProductController::class, 'destroy'] )->name('dashboard.delete');
+    Route::get('/dashboard/product', [ProductController::class, 'dashboard'] )->name('dashboard.product');
+    Route::get('/dashboard/product/add', function () {return Inertia::render('Admin/ProductForm');})->name('dashboard.product.add');
+    Route::post('/dashboard/product/store/', [ProductController::class, 'store'] )->name('dashboard.product.store');
+    Route::get('/dashboard/product/edit/{id}', [ProductController::class, 'edit'] )->name('dashboard.product.edit');
+    Route::patch('/dashboard/product/update/{id}', [ProductController::class, 'update'] )->name('dashboard.product.update');
+    Route::delete('/dashboard/product/delete/{id}', [ProductController::class, 'destroy'] )->name('dashboard.product.delete');
 
     //User
-    route::get('/dashboard/user/edit', [User::class, 'edit']);
+    Route::get('/dashboard/user/', [UserController::class, 'dashboard'])->name('dashboard.user');
+    Route::get('/dashboard/user/edit/{id}', [UserController::class, 'edit'])->name('dashboard.user.edit');
+    Route::patch('/dashboard/user/update/{id}', [UserController::class, 'update'])->name('dashboard.user.update');
+    Route::delete('/dashboard/user/delete/{id}', [UserController::class, 'destroy'])->name('dashboard.user.delete');
 });
 //langsung semua
 // Route::resource('dashboard', ProductController::class);
+
+// Cart
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::get('/getCartInfo', [CartController::class, 'getCartInfo'])->name('cartInfo');
+    Route::get('/cart', [CartController::class, 'cart'])->name('cart');
+    Route::post('/cart/add/{itemId}', [CartController::class, 'add'])->name('cart.add');
+    Route::patch('/cart/updateQty/{itemId}', [CartController::class, 'updateQuantity'])->name('cart.updateqty');
+    Route::post('/cart/remove/{itemId}', [CartController::class, 'remove'])->name('cart.remove');
+});
 
 // Pages
 Route::get('/about', function () {

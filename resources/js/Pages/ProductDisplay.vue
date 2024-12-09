@@ -2,13 +2,22 @@
 import ProductCard from "@/Components/ProductCard.vue";
 import Header from '@/Components/Header.vue';
 import Footer from '@/Components/Footer.vue';
-import { usePage } from '@inertiajs/vue3';
+import { usePage, router } from '@inertiajs/vue3';
 const { products } = usePage().props;
+
+
+function addToCart(itemId) { // Taro sini bukan di component ProductCard.vue
+    router.post(`/cart/add/${itemId}`, {}, {
+      onFinish: () => {
+        router.visit(route('product'),  {preserveScroll: true})
+      }
+    })
+  }
 </script>
 
 <template>
   <Header/>
-  <section class="py-28 px-16 bg-slate-50">
+  <section class="py-28 px-16 bg-slate-50 h-[80vh]">
     <div class="py-4 space-y-4"> <!-- Gak pake Grid karena udah ada flex-wrap dibawah -->
       <h1 class="text-2xl text-center font-bold">Produk Kami</h1>
       <div class="flex flex-wrap justify-center gap-10">
@@ -16,7 +25,7 @@ const { products } = usePage().props;
           v-for="product in products"
           :key="product.id_produk"
           :product="product"
-          @add-to-cart="addToCart"
+          @add-to-cart="addToCart(product.id_produk)"
         />
       </div>
     </div>

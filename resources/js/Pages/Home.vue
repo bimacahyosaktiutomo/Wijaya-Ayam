@@ -88,55 +88,17 @@ const { products } = usePage().props;
         <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
           <div v-for="product in products.slice(0, 4)" class="bg-white rounded-lg shadow-md overflow-hidden">
             <img :src="`storage/${product.gambar}`" alt="Ayam Utuh" class="w-full h-48 object-cover" />
-            <div class="p-4">
+            <div class="flex flex-col p-4">
+              <h3 class="text-xl font-semibold text-gray-800">RP. {{ product.harga }}</h3>
               <h3 class="text-xl font-semibold text-gray-800">{{ product.nama_produk }}</h3>
               <p class="text-gray-600 mt-2">
                 {{ product.deskripsi }}
               </p>
-              <button class="btnStyle mt-4 bg-green-500 hover:bg-green-600 text-white font-semibold px-4 py-2 rounded transition">
-                Lihat Detail
+              <button class="btnStyle self-end mt-4 bg-green-500 hover:bg-green-600 text-white font-semibold px-4 py-2 rounded transition">
+                + Keranjang
               </button>
             </div>
           </div>
-
-          <!-- <div class="bg-white rounded-lg shadow-md overflow-hidden">
-            <img src="../assets/background1.png" alt="Potongan Ayam" class="w-full h-48 object-cover" />
-            <div class="p-4">
-              <h3 class="text-xl font-semibold text-gray-800">Potongan Ayam</h3>
-              <p class="text-gray-600 mt-2">
-                Ayam segar dalam potongan praktis yang siap dimasak.
-              </p>
-              <button class="btnStyle mt-4 bg-green-500 hover:bg-green-600 text-white font-semibold px-4 py-2 rounded transition">
-                Lihat Detail
-              </button>
-            </div>
-          </div>
-          
-          <div class="bg-white rounded-lg shadow-md overflow-hidden">
-            <img src="../assets/background1.png" alt="Ayam Fillet" class="w-full h-48 object-cover" />
-            <div class="p-4">
-              <h3 class="text-xl font-semibold text-gray-800">Ayam Fillet</h3>
-              <p class="text-gray-600 mt-2">
-                Daging ayam tanpa tulang yang praktis dan mudah diolah.
-              </p>
-              <button class="btnStyle mt-4 bg-green-500 hover:bg-green-600 text-white font-semibold px-4 py-2 rounded transition">
-                Lihat Detail
-              </button>
-            </div>
-          </div>
-          
-          <div class="bg-white rounded-lg shadow-md overflow-hidden">
-            <img src="../assets/background1.png" alt="Ayam Fillet" class="w-full h-48 object-cover" />
-            <div class="p-4">
-              <h3 class="text-xl font-semibold text-gray-800">Ayam Fillet</h3>
-              <p class="text-gray-600 mt-2">
-                Daging ayam tanpa tulang yang praktis dan mudah diolah.
-              </p>
-              <button class="btnStyle mt-4 bg-green-500 hover:bg-green-600 text-white font-semibold px-4 py-2 rounded transition">
-                Lihat Detail
-              </button>
-            </div>
-          </div> -->
 
         </div>
       </div>
