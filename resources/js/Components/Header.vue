@@ -11,6 +11,14 @@ const totalPrice = isAuthenticated ? cartInfo.totalPrice : 0;
 
 <!-- Alternativ, bikin propsnya di script laen soalnya gak bisa di setup -->
 <script>
+import Swal from 'sweetalert2';
+
+function notif (text) {
+Swal.fire({
+    title: text,
+    icon: 'error',
+})
+}
 // export default {
 //     name: 'Header',
 //     props: {
@@ -23,7 +31,9 @@ const totalPrice = isAuthenticated ? cartInfo.totalPrice : 0;
 <template>
   <header class="header">
     <nav class="navbar">
-      <div class="logo">Logo</div>
+      <div class="w-24">
+        <img src="../assets/LogoWijayaAyam2.png" alt="">
+      </div>
       <ul class="nav-links">
         <li>
           <Link :href="route('home')">
@@ -67,7 +77,7 @@ const totalPrice = isAuthenticated ? cartInfo.totalPrice : 0;
                 </div>
                 <div class="flex flex-col text-sm">
                   <h1 class="line-clamp-1">{{ item.name }}</h1>
-                  <h1 class="font-semibold">Rp. {{ item.price }}</h1>
+                  <h1 class="font-semibold">Rp. {{ item.price.toLocaleString() }}</h1>
                   <p>Quantity: {{ item.quantity }}</p>
                 </div>
               </div>
@@ -77,10 +87,12 @@ const totalPrice = isAuthenticated ? cartInfo.totalPrice : 0;
             <hr />
             <div class="flex justify-between font-semibold">
               <h1>Total:</h1>
-              <h1>Rp. {{ totalPrice }}</h1>
+              <h1>Rp. {{ totalPrice.toLocaleString() }}</h1>
             </div>
 
-            <Link :href="route('cart')"
+            <button v-if="cartItems.length === 0" @click="notif('Cart Kosong')"
+              class="btn bg-amber-500 hover:bg-amber-600 text-white w-full text-center mt-2">Checkout</button>
+            <Link v-else :href="route('checkout')"
               class="btn bg-amber-500 hover:bg-amber-600 text-white w-full text-center mt-2">Checkout</Link>
           </div>
         </li>
@@ -90,9 +102,14 @@ const totalPrice = isAuthenticated ? cartInfo.totalPrice : 0;
             <h1 class="self-center text-lg">{{ $page.props.auth.user.name }}</h1>
           </div>
           <ul class="dropdown-content menu bg-base-100 rounded-box z-[1] w-40 p-2 shadow">
-            <li>
+            <li v-if="$page.props.auth.role === 'admin'">
               <Link :href="route('dashboard.product')">
               Dashboard
+              </Link>
+            </li>
+            <li>
+              <Link :href="route('history')">
+              Order History
               </Link>
             </li>
             <li class="md:hidden">
@@ -123,6 +140,21 @@ const totalPrice = isAuthenticated ? cartInfo.totalPrice : 0;
             <li>
               <Link v-if="$page.props.canLogin" :href="route('login')">
               Login
+              </Link>
+            </li>
+            <li class="">
+              <Link :href="route('home')">
+              Home
+              </Link>
+            </li>
+            <li class="">
+              <Link :href="route('product')">
+              Product
+              </Link>
+            </li>
+            <li class="">
+              <Link :href="route('about')">
+              About
               </Link>
             </li>
             <li>

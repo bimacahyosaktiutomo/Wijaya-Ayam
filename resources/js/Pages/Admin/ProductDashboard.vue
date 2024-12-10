@@ -31,14 +31,16 @@ const { products } = usePage().props;
                     <tr v-if="products.length === 0">
                         <td colspan="9" class="px-4 py-2 text-center">Tidak ada produk</td>
                     </tr>
-                    <tr v-for="item in products" :key="item.id_produk" class="bg-white border-b">
+                    <tr v-for="item in products" :key="item.id_produk" class="text-center bg-white border-b">
                         <th scope="row" class="px-4 py-2 font-normal">{{ item.id_produk }}</th>
                         <td class="px-4 py-2">{{ item.nama_produk }}</td>
                         <td class="px-4 py-2">{{ item.deskripsi }}</td>
-                        <td class="px-4 py-2">{{ item.harga }}</td>
+                        <td class="px-4 py-2">{{ item.harga.toLocaleString() }}</td>
                         <td class="px-4 py-2">{{ item.stok }}</td>
                         <td class="" v-if="item.gambar">
-                            <img :src="`/storage/${item.gambar}`" alt="Product Image" class="w-20 h-auto">
+                            <div class="w-full flex justify-center">
+                                <img :src="`/storage/${item.gambar}`" alt="Product Image" class="w-20 h-auto">
+                            </div>
                         </td>
                         <td class="flex justify-center px-4 py-2">
                             <Link :href="route('dashboard.product.edit', { id: item.id_produk })">

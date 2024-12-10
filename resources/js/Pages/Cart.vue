@@ -15,8 +15,8 @@ const { cartItems, totalPrice } = usePage().props;
                 <div class="bg-white md:w-2/3 md:rounded-md">
 
                     <p v-if="cartItems.length === 0" class="text-center py-10">
-                        Your cart is empty. <Link :href="route('product')" class="text-amber-500 hover:text-amber-600 font-semibold">Shop
-                            now!</Link>
+                        Keranjang mu kosong. <Link :href="route('product')" class="text-amber-500 hover:text-amber-600 font-semibold">Belanja
+                            sekarang!</Link>
                     </p>
                     <!-- Loop through cart items -->
                     <div v-for="item in cartItems" class="flex w-full md:py-5 md:pr-5 gap-4">
@@ -37,21 +37,13 @@ const { cartItems, totalPrice } = usePage().props;
                                     <button @click="item.quantity - 1 === 0 ? removeItem(item.id) : updateQty(item.id, -1)"
                                         class="px-4 py-1 border-x border-x-gray-300 text-center text-lg font-semibold text-gray-800 rounded-l-xl">-</button>
                                     <h4 class="px-3 py-1 text-lg font-semibold text-gray-600">{{ item.quantity }}</h4>
-                                    <!-- {% if item.quantity >= item.item.stock %} -->
-                                    <!-- <a href="#"
-                                        class="px-4 py-1 border-x border-x-gray-300 text-center text-lg font-semibold text-gray-800 rounded-r-xl cursor-not-allowed opacity-50"
-                                        aria-disabled="true">+</a> -->
-                                    <!-- {% else %} -->
                                     <button @click="updateQty(item.id, 1)"
                                         class="px-4 py-1 border-x border-x-gray-300 text-center text-lg font-semibold text-gray-800 rounded-r-xl">+</button>
-                                    <!-- {% endif %} -->
-
-                                    <!-- {% comment %} <a
-                                        href="{% url 'tokom:cart_update' item.item.item_id %}?action=increase"
-                                        class="px-4 py-1 border-x border-x-gray-300 text-center text-lg font-semibold text-gray-800 rounded-r-xl">+</a>
-                                    {% endcomment %} -->
                                 </div>
                             </div>
+                            <h1 class="text-end text-md md:text-lg font-semibold">
+                                Total harga : Rp. {{ (item.price * item.quantity).toLocaleString() }}
+                            </h1>
                         </div>
                     </div>
                 </div>
@@ -66,7 +58,10 @@ const { cartItems, totalPrice } = usePage().props;
                             <span class="font-semibold">Rp. {{ totalPrice.toLocaleString() }}</span>
                         </div>
                         <hr />
-                        <Link :href="route('checkout')"><button
+                        <button v-if="cartItems.length === 0" @click="notif('Cart Kosong')" class="box-border w-full bg-amber-500 hover:bg-amber-600 p-3 self-center rounded-xl hover-anim">
+                            <span class="text-white font-semibold">Checkout</span>
+                        </button>
+                        <Link v-else :href="route('checkout')"><button
                                 class="box-border w-full bg-amber-500 hover:bg-amber-600 p-3 self-center rounded-xl hover-anim"><span
                                     class="text-white font-semibold">Checkout</span></button></Link>
                     </div>
@@ -78,6 +73,15 @@ const { cartItems, totalPrice } = usePage().props;
 </template>
 
 <script>
+import Swal from 'sweetalert2';
+
+function notif (text) {
+Swal.fire({
+    title: text,
+    icon: 'error',
+})
+}
+
 function updateQty(itemId, quantity) {
     router.patch(`/cart/updateQty/${itemId}`, {qty:quantity}, {
         onFinish: () => {

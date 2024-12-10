@@ -11,5 +11,5 @@ class Order extends Model
     //
     protected $primaryKey = 'id_pemesanan';
     protected $table = 'orders';
-    protected $fillable = ['id_pemesanan', 'id_pelanggan', 'status_pemesanan', 'total_harga', 'alamat_pengiriman'];
+    protected $fillable = ['id_pemesanan', 'id_pelanggan', 'nama_pelanggan', 'no_telepon', 'status_pemesanan', 'total_harga', 'alamat_pengiriman'];
 }

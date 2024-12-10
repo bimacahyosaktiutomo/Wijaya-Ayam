@@ -1,14 +1,33 @@
 <script setup>
-import { usePage } from '@inertiajs/vue3';
+import { usePage, Link, useForm, router} from '@inertiajs/vue3';
 import Header from '@/Components/Header.vue';
 
 const { cartItems, totalPrice } = usePage().props;
+
+const form = useForm({
+    id_pelanggan: usePage().props.auth.user.id_pengguna,
+    nama_pelanggan: usePage().props.auth.user.name,
+    no_telepon: usePage().props.auth.user.no_telepon,
+    status_pemesanan: 'Diantar',
+    total_harga: totalPrice,
+    alamat_pengiriman: ''
+});
+
+const submit = () => {
+    form.post('/checkout/order', {
+        onSuccess: () => {
+            notifSuccess('Pesanan akan diproses');
+        }
+    });
+};
+
+
 </script>
 
 <template>
     <Header />
     <section class="bg-slate-100 min-h-[100vh]">
-        <div class="py-1 md:py-10 lg:px-28 md:px-8 justify-center space-y-4">
+        <div class="py-6 md:py-10 lg:px-28 md:px-8 justify-center space-y-4">
             <!-- Breadcrumbs -->
             <div class="breadcrumbs text-sm">
                 <ul>
@@ -41,8 +60,8 @@ const { cartItems, totalPrice } = usePage().props;
                             <div class="form-control border rounded-lg">
                                 <input type="text" name="name" id="name"
                                     placeholder="Fullname"
-                                    class="input input-bordered w-full cursor-not-allowed"
-                                    v-model="$page.props.auth.user.name"
+                                    class="input input-bordered w-full"
+                                    v-model="form.nama_pelanggan"
                                     />
                             </div>
                         </div>
@@ -51,7 +70,7 @@ const { cartItems, totalPrice } = usePage().props;
                         <div class="space-y-2">
                             <label for="phone" class="font-semibold">Phone Number</label>
                             <div class="form-control border rounded-lg">
-                                <input  v-model="$page.props.auth.user.no_telepon" type="text" name="phone" id="phone" placeholder="Phone Number"
+                                <input  v-model="form.no_telepon" type="text" name="phone" id="phone" placeholder="Phone Number"
                                     class="input input-bordered w-full" required />
                             </div>
                         </div>
@@ -60,7 +79,7 @@ const { cartItems, totalPrice } = usePage().props;
                         <div class="space-y-2">
                             <label for="address" class="font-semibold">Address</label>
                             <div class="form-control border rounded-lg">
-                                <textarea name="address" id="address" placeholder="Street Address, City, Postal Code"
+                                <textarea v-model="form.alamat_pengiriman" name="address" id="address" placeholder="Street Address, City, Postal Code"
                                     class="textarea textarea-bordered w-full resize-none "
                                     rows="3"
                                     required></textarea>
@@ -74,13 +93,16 @@ const { cartItems, totalPrice } = usePage().props;
                                 <label class="label cursor-pointer">
                                     <span class="label-text">Cash on Delivery (COD)</span>
                                     <input type="radio" name="payment" value="cod" checked
-                                        class="radio [--chkbg:theme(colors.indigo.500)]" />
+                                        class="radio [--chkbg:theme(colors.amber.500)]" />
                                 </label>
                             </div>
                         </div>
 
-                        <button type="submit" class="btn btn-primary bg-indigo-500 hover:bg-indigo-600 w-full">
-                            Place Order
+                        <button v-if="cartItems.length === 0" @click="notif('Cart Kosong')" class="btn bg-amber-400 hover:bg-amber-500 w-full">
+                            Pesan
+                        </button>
+                        <button v-else type="submit" class="btn bg-amber-400 hover:bg-amber-500 w-full">
+                            Pesan
                         </button>
                     </form>
                 </div>
@@ -108,9 +130,9 @@ const { cartItems, totalPrice } = usePage().props;
                                 <span class="font-semibold">Rp. {{ totalPrice.toLocaleString() }}</span>
                             </div>
                             <hr />
-                            <p class="text-center py-10">
-                                Your cart is empty. <a href="{% url 'tokom:home' %}"
-                                    class="text-indigo-500 font-semibold">Shop now!</a>
+                            <p v-if="cartItems.length === 0" class="text-center py-10">
+                                Cart Kosong <Link :href="route('product')"
+                                    class="text-amber-500 font-semibold">Belanja sekarang!</Link>
                             </p>
                         </div>
                     </div>
@@ -121,113 +143,20 @@ const { cartItems, totalPrice } = usePage().props;
     </section>
 </template>
 
-<style scoped>
-.cart-page {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    background-color: #f8f9fa;
-    padding: 20px;
-    font-family: Arial, sans-serif;
-    top: 0;
+<script>
+import Swal from 'sweetalert2';
+
+function notif (text) {
+    Swal.fire({
+        title: text,
+        icon: 'error',
+    })
 }
 
-.cart-container {
-    margin-top: 90px;
-    display: flex;
-    flex-direction: column;
-
+function notifSuccess(text) {
+    Swal.fire({
+        title: text,
+        icon: 'success',
+    })
 }
-
-.shipping-section {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 20px;
-}
-
-.address-button {
-    background-color: #5a6268;
-    color: white;
-    padding: 10px 15px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-.address-box {
-    flex: 1;
-    background-color: #e9ecef;
-    padding: 10px;
-    border-radius: 5px;
-}
-
-.cart-items {
-    margin-bottom: 20px;
-}
-
-.cart-item {
-    display: flex;
-    align-items: center;
-    background-color: #ffffff;
-    border-radius: 8px;
-    padding: 15px;
-    margin-bottom: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-.item-image {
-    width: 80px;
-    height: 80px;
-    margin-right: 15px;
-    border-radius: 8px;
-}
-
-.item-details {
-    flex: 1;
-}
-
-.item-name {
-    font-size: 16px;
-    font-weight: bold;
-}
-
-.item-quantity,
-.item-price {
-    font-size: 14px;
-    margin: 5px 0;
-}
-
-.item-actions {
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-}
-
-.quantity-button {
-    background-color: #6c757d;
-    color: white;
-    border: none;
-    padding: 5px 10px;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-.cart-summary {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.checkout-button {
-    background-color: #28a745;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-.total-price {
-    font-weight: bold;
-}
-</style>
+</script>

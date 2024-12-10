@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
 use App\Models\User;
+use Spatie\Permission\Models\Role;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
@@ -15,12 +16,21 @@ class UserController extends Controller
     //
     public function dashboard()
     {
-        $users = User::latest()->get();
-
+        $users = User::latest()->get()->map(function ($user) {
+            return [
+                'id_pengguna' => $user->id_pengguna,
+                'name' => $user->name,
+                'email' => $user->email,
+                'no_telepon' => $user->no_telepon,
+                'role' => $user->getRoleNames()->first(),
+            ];
+        });
+    
         return Inertia::render('Admin/UserDashboard', [
             'users' => $users,
         ]);
     }
+    
 
     public function edit($id)
     {
@@ -43,6 +53,20 @@ class UserController extends Controller
 
         return Redirect::route('dashboard.user');
     }
+
+    public function updateRole(Request $request, $idUser)
+    {
+        $validated = $request->validate([
+            'role' => 'required|in:user,admin',
+        ]);
+    
+        $user = User::findOrFail($idUser);
+    
+        $role = Role::findOrCreate($validated['role']);
+    
+        $user->syncRoles($role);
+    }
+    
 
     public function destroy($id)
     {

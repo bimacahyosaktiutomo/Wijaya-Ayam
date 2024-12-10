@@ -24,7 +24,7 @@ Route::get('/', [ProductController::class, 'index'])->name('home');
 // JANGAN LUPA, NARO DI ROUTE PAKENYA {id} bukan {$id} 
 
 //Dashboard
-Route::middleware(['auth', 'verified'])->group(function () {
+Route::middleware(['auth', 'verified', 'role:admin'])->group(function () {
     // Produk
     Route::get('/dashboard/product', [ProductController::class, 'dashboard'] )->name('dashboard.product');
     Route::get('/dashboard/product/add', function () {return Inertia::render('Admin/ProductForm');})->name('dashboard.product.add');
@@ -38,6 +38,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard/user/edit/{id}', [UserController::class, 'edit'])->name('dashboard.user.edit');
     Route::patch('/dashboard/user/update/{id}', [UserController::class, 'update'])->name('dashboard.user.update');
     Route::delete('/dashboard/user/delete/{id}', [UserController::class, 'destroy'])->name('dashboard.user.delete');
+    Route::patch('/dashboard/user/role/{id}', [UserController::class, 'updateRole'])->name('dashboard.user.role');
+
+    //Order
+    Route::get('/dashboard/order/', [OrderController::class, 'dashboard'])->name('dashboard.order');
+    Route::get('/dashboard/order/{id}/details/', [OrderController::class, 'fromDashboardDetail'])->name('dashboard.order.details');
+    Route::patch('/dashboard/order/status/{id}', [OrderController::class, 'updateStatus'])->name('dashboard.order.status');
 });
 //langsung semua
 // Route::resource('dashboard', ProductController::class);
@@ -54,6 +60,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // Transactions
     Route::get('/checkout', [OrderController::class, 'checkout'])->name('checkout');
     Route::post('/checkout/order', [OrderController::class, 'store'])->name('order');
+    Route::get('/order/history', [OrderController::class, 'history'])->name('history');
+    Route::get('/order/{id}/details', [OrderController::class, 'detail'])->name('details');
+    Route::patch('/order/status/{id}', [OrderController::class, 'updateStatus'])->name('update.status');
 });
 
 // Pages

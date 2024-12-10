@@ -9,7 +9,8 @@ import { Link } from '@inertiajs/vue3';
     >
         <div>
             <Link href="/">
-                <ApplicationLogo class="h-20 w-20 fill-current text-gray-500" />
+                <!-- <ApplicationLogo class="h-20 w-20 fill-current text-gray-500" /> -->
+                <img src="../assets/LogoWijayaAyam2.png" class="w-44" alt="">
             </Link>
         </div>
 
