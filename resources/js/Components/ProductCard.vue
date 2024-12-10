@@ -21,7 +21,7 @@ const addToCartHandler = () => {
   <div class="flex flex-col bg-white rounded-lg shadow-md hover:shadow-lg hover-anim">
     <div class="flex justify-center w-full bg-gray-100 rounded-t-md overflow-hidden">
       <img :src="`storage/${props.product.gambar}`"
-        class="self-center w-full h-40 object-contain bg-white transition-transform duration-300 transform hover:scale-110" alt="">
+        class="self-center w-60 h-40 object-contain bg-white transition-transform duration-300 transform hover:scale-110" alt="">
     </div>
     <div class="flex flex-col p-3 h-36 space-y-1">
       <div class="font-semibold truncate max-w-full">Rp. {{ props.product.harga.toLocaleString() }}</div>
