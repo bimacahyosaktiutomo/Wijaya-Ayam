@@ -1,5 +1,5 @@
 <script setup>
-import { Head, Link, usePage } from '@inertiajs/vue3';
+import { Head, Link, usePage, router } from '@inertiajs/vue3';
 import Footer from '@/Components/Footer.vue';
 import Header from '@/Components/Header.vue';
 
@@ -9,10 +9,18 @@ const props = defineProps({
 });
 
 const { products } = usePage().props;
+
+function addToCart(itemId) {
+    router.post(`/cart/add/${itemId}`, {}, {
+      onFinish: () => {
+        router.visit(route('home'),  {preserveScroll: true})
+      }
+    })
+  }
 </script>
 
 <!-- Alternativ, bikin propsnya di script laen soalnya gak bisa di setup -->
-<script>
+<!-- <script>
 // export default {
 //     name: 'Home',
 //     components: {
@@ -23,7 +31,7 @@ const { products } = usePage().props;
 //         canRegister: Boolean,
 //     },
 // };
-</script>
+</script> -->
 
 <template>
   <div class="home">
@@ -39,9 +47,11 @@ const { products } = usePage().props;
             Nikmati daging ayam potong berkualitas terbaik untuk keluarga Anda. Pesan sekarang dan rasakan bedanya!
           </p>
           <div class="mt-6">
-            <button class="btnStyle bg-amber-300 hover:bg-amber-400 text-black font-semibold px-6 py-3 rounded shadow-md transition">
-              Pesan Sekarang
-            </button>
+            <Link :href="route('product')">
+              <button class="btnStyle bg-amber-300 hover:bg-amber-400 text-black font-semibold px-6 py-3 rounded shadow-md transition">
+                Pesan Sekarang
+              </button>
+            </Link >
           </div>
         </div>
       </div>
@@ -50,7 +60,7 @@ const { products } = usePage().props;
     <section class="py-16 bg-white">
       <div class="container mx-auto px-4 text-center justify-center">
         <h2 class="text-3xl font-bold text-gray-800 mb-6">Mengapa Harus Memilih Kami?</h2>
-        <div class="flex text-center justify-center">
+        <div class="grid grid-cols-1 sm:grid-cols-3 text-center justify-center">
           <div class="p-4">
             <img src="../assets/tree.png" alt="Icon" class="w-16 h-16 mx-auto mb-4" />
             <h3 class="text-xl font-semibold text-gray-800">Segar Setiap Hari</h3>
@@ -85,18 +95,22 @@ const { products } = usePage().props;
           </p>
         </div>
 
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+        <div class="grid grid-cols-1 xs:grid-cols-2 lg:grid-cols-4 gap-8">
           <div v-for="product in products.slice(0, 4)" class="bg-white rounded-lg shadow-md overflow-hidden">
             <img :src="`storage/${product.gambar}`" alt="Ayam Utuh" class="w-full h-48 object-cover" />
             <div class="flex flex-col p-4">
-              <h3 class="text-xl font-semibold text-gray-800">RP. {{ product.harga }}</h3>
+              <h3 class="text-xl font-semibold text-gray-800">RP. {{ product.harga.toLocaleString() }}</h3>
               <h3 class="text-xl font-semibold text-gray-800">{{ product.nama_produk }}</h3>
               <p class="text-gray-600 mt-2">
                 {{ product.deskripsi }}
               </p>
-              <button class="btnStyle self-end mt-4 bg-green-500 hover:bg-green-600 text-white font-semibold px-4 py-2 rounded transition">
+              <button v-if="$page.props.auth.user" @click="addToCart(product.id_produk)" class="btnStyle self-end mt-4 bg-green-500 hover:bg-green-600 text-white font-semibold px-4 py-2 rounded transition">
                 + Keranjang
               </button>
+              <Link v-else :href="route('login')" 
+                class="btnStyle self-end mt-4 bg-green-500 hover:bg-green-600 text-white font-semibold px-4 py-2 rounded transition">
+                + Keranjang
+            </Link>
             </div>
           </div>
 
@@ -160,9 +174,11 @@ const { products } = usePage().props;
             <p class="text-center text-gray-300">
               Berbelanja daging ayam online di Wijaya Ayam.
             </p>
-            <button class="btnStyle mt-6 bg-green-500 hover:bg-green-600 text-white font-semibold px-6 py-2 rounded shadow-md transition">
-              Shop Now →
-            </button>
+            <Link :href="route('product')">
+              <button class="btnStyle mt-6 bg-green-500 hover:bg-green-600 text-white font-semibold px-6 py-2 rounded shadow-md transition">
+                Shop Now →
+              </button>
+            </Link>
           </div>
 
           <!-- Review Card 3 -->
@@ -196,6 +212,10 @@ const { products } = usePage().props;
     <Footer/>
   </div>
 </template>
+
+<script>
+
+</script>
 
 <style>
 .hero {

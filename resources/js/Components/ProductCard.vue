@@ -1,6 +1,6 @@
 <script setup>
 import { defineProps, defineEmits  } from 'vue';
-import { router } from '@inertiajs/vue3';
+import { Link, router } from '@inertiajs/vue3';
 
 const props = defineProps({
   product: {
@@ -24,13 +24,17 @@ const addToCartHandler = () => {
         class="self-center w-full h-40 object-contain bg-white transition-transform duration-300 transform hover:scale-110" alt="">
     </div>
     <div class="flex flex-col p-3 h-36 space-y-1">
-      <div class="font-semibold truncate max-w-full">Rp. {{ props.product.harga }}</div>
+      <div class="font-semibold truncate max-w-full">Rp. {{ props.product.harga.toLocaleString() }}</div>
       <h3 class="line-clamp-2 max-w-full">{{ props.product.nama_produk }}</h3>
       <p class="text-xs line-clamp-2 max-w-full">{{ props.product.deskripsi }}</p>
-      <button @click="addToCartHandler" 
+      <button v-if="$page.props.auth.user" @click="addToCartHandler" 
         class="self-end font-semibold p-2 rounded-md bg-amber-300 hover:bg-amber-400 hover-anim">
         + Keranjang
       </button>
+      <Link v-else :href="route('login')" 
+        class="self-end font-semibold p-2 rounded-md bg-amber-300 hover:bg-amber-400 hover-anim">
+        + Keranjang
+    </Link>
     </div>
   </div>
 </template>

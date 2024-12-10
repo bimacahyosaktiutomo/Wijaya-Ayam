@@ -17,10 +17,6 @@ import Header from '@/Components/Header.vue';
             Dengan proses pengolahan yang higienis dan layanan terbaik, kami
             memastikan kepuasan pelanggan menjadi prioritas utama kami.
           </p>
-          <button
-            class="mt-6 px-6 py-3 bg-green-500 text-white font-bold rounded-full shadow-lg hover:bg-green-600 transition duration-300">
-            Pelajari Lebih Lanjut
-          </button>
         </div>
       </div>
     </section>
@@ -29,7 +25,7 @@ import Header from '@/Components/Header.vue';
     <section class="bg-white py-16 px-4">
       <div class="container mx-auto text-center">
         <h2 class="text-4xl font-extrabold text-gray-800 mb-10">Misi Kami</h2>
-        <div class="grid grid-cols-3 md:grid-cols-3 gap-8">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
           <!-- Misi 1 -->
           <div
             class="p-6 bg-green-50 rounded-xl shadow-md hover:shadow-lg transform hover:-translate-y-2 transition duration-300">
@@ -89,7 +85,7 @@ import Header from '@/Components/Header.vue';
     <section class="bg-gradient-to-b from-green-50 to-green-100 py-16 px-4">
       <div class="container mx-auto text-center">
         <h2 class="text-4xl font-extrabold text-gray-800 mb-10">Tim Kami</h2>
-        <div class="grid grid-cols-3 md:grid-cols-3 gap-8">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
           <!-- Member 1 -->
           <div
             class="p-6 bg-white rounded-xl shadow-md hover:shadow-lg transform hover:-translate-y-2 transition duration-300">
@@ -121,8 +117,7 @@ import Header from '@/Components/Header.vue';
     <div class="location-container">
       <div class="location-text">
         <h2 class="location-title text-black">Temukan Lokasi Kami</h2>
-        <p class="location-description text-black">
-          Chickin Indonesia hadir di berbagai wilayah strategis di Indonesia. 
+        <p class="location-description text-black"> 
           Klik pada peta untuk membuka lokasi kami di Google Maps.
         </p>
       </div>

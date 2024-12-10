@@ -47,8 +47,8 @@ class HandleInertiaRequests extends Middleware
             'canRegister' => Route::has('register'),
             'cartInfo' => Auth::id() ? [
                 'cartItems' => Cart::session(Auth::id())->getContent(),
-                'totalCartItems' => Cart::session(Auth::id())->getTotalQuantity(),
-                // 'totalCartItems' => Cart::session(Auth::id())->getContent()->count(), // Gak termasuk quantity per item
+                // 'totalCartItems' => Cart::session(Auth::id())->getTotalQuantity(),
+                'totalCartItems' => Cart::session(Auth::id())->getContent()->count(), // Gak termasuk quantity per item
                 'totalPrice' => Cart::session(Auth::id())->getSubTotal(),
             ] : null,
         ];

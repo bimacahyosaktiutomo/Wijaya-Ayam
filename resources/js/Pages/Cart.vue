@@ -8,7 +8,7 @@ const { cartItems, totalPrice } = usePage().props;
 
 <template>
     <Header/>
-    <section class="bg-slate-100 h-[80vh] py-20">
+    <section class="bg-slate-100 min-h-[80vh] py-20">
         <div class="py-1 md:py-10 lg:px-28 md:px-8 justify-center space-y-4">
             <h1 class="font-semibold text-2xl text-center">Cart</h1>
             <div class="flex flex-col md:flex-row gap-4">
@@ -28,13 +28,13 @@ const { cartItems, totalPrice } = usePage().props;
                             <div>
                                 <a href="{% url 'tokom:product_details' item.item.item_id %}"
                                     class="line-clamp-2 max-w-full text-sm lg:text-lg">{{ item.name }}</a>
-                                <p class="font-bold">Rp. {{ item.price }}</p>
+                                <p class="font-bold">Rp. {{ item.price.toLocaleString() }}</p>
                             </div>
                             <div class="flex justify-end text-2xl space-x-6 p-2 text-center">
                                 <button @click="removeItem(item.id)"
                                     class="remove-from-cart self-center cursor-pointer fa-regular fa-trash-can hover:text-gray-400"></button>
                                 <div class="flex items-center border border-gray-300 rounded-2xl">
-                                    <button @click="updateQty({itemId:item.id, qty:1})"
+                                    <button @click="item.quantity - 1 === 0 ? removeItem(item.id) : updateQty(item.id, -1)"
                                         class="px-4 py-1 border-x border-x-gray-300 text-center text-lg font-semibold text-gray-800 rounded-l-xl">-</button>
                                     <h4 class="px-3 py-1 text-lg font-semibold text-gray-600">{{ item.quantity }}</h4>
                                     <!-- {% if item.quantity >= item.item.stock %} -->
@@ -42,7 +42,7 @@ const { cartItems, totalPrice } = usePage().props;
                                         class="px-4 py-1 border-x border-x-gray-300 text-center text-lg font-semibold text-gray-800 rounded-r-xl cursor-not-allowed opacity-50"
                                         aria-disabled="true">+</a> -->
                                     <!-- {% else %} -->
-                                    <button @click="updateQty({itemId:item.id, qty:1})"
+                                    <button @click="updateQty(item.id, 1)"
                                         class="px-4 py-1 border-x border-x-gray-300 text-center text-lg font-semibold text-gray-800 rounded-r-xl">+</button>
                                     <!-- {% endif %} -->
 
@@ -63,23 +63,23 @@ const { cartItems, totalPrice } = usePage().props;
                         <hr />
                         <div class="flex lg:flex-row md:flex-col justify-between">
                             <h1 class="font-medium">Total :</h1>
-                            <span class="font-semibold">Rp. {{ totalPrice }}</span>
+                            <span class="font-semibold">Rp. {{ totalPrice.toLocaleString() }}</span>
                         </div>
                         <hr />
-                        <a href="{% url 'tokom:checkout' %}"><button
+                        <Link :href="route('checkout')"><button
                                 class="box-border w-full bg-amber-500 hover:bg-amber-600 p-3 self-center rounded-xl hover-anim"><span
-                                    class="text-white font-semibold">Checkout</span></button></a>
+                                    class="text-white font-semibold">Checkout</span></button></Link>
                     </div>
                 </div>
             </div>
         </div>
     </section>
-    <Footer/>
+    <Footer class="hidden md:block" />
 </template>
 
 <script>
 function updateQty(itemId, quantity) {
-    router.patch(route('cart.updateqty', {id:itemId, qty:quantity}), {
+    router.patch(`/cart/updateQty/${itemId}`, {qty:quantity}, {
         onFinish: () => {
             router.visit(route('cart'), { preserveScroll: true });
         }

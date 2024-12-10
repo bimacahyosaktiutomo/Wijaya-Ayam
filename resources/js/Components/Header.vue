@@ -44,7 +44,7 @@ const totalPrice = isAuthenticated ? cartInfo.totalPrice : 0;
       <div class="flex items-center space-x-4">
         <li class="cart dropdown dropdown-hover dropdown-end">
           <Link :href="route('cart')">
-          <a class="flex">
+          <a class="flex hover:text-amber-400 hover-anim">
             <i class="text-xl fa-solid fa-cart-shopping"></i>
             <p v-if="$page.props.auth.user" class="text-xs">{{ totalCartItems }}</p>
           </a>
@@ -80,12 +80,12 @@ const totalPrice = isAuthenticated ? cartInfo.totalPrice : 0;
               <h1>Rp. {{ totalPrice }}</h1>
             </div>
 
-            <a href="{% url 'tokom:checkout' %}"
-              class="btn btn-primary bg-indigo-500 text-white w-full text-center mt-2">Checkout</a>
+            <Link :href="route('cart')"
+              class="btn bg-amber-500 hover:bg-amber-600 text-white w-full text-center mt-2">Checkout</Link>
           </div>
         </li>
         <li v-if="$page.props.auth && $page.props.auth.user" class="dropdown dropdown-hover dropdown-end">
-          <div class="flex space-x-1 font-semibold">
+          <div class="flex space-x-1 font-semibold hover:text-amber-400 hover-anim">
             <button class="text-xl"><i class="fa-solid fa-user"></i></button>
             <h1 class="self-center text-lg">{{ $page.props.auth.user.name }}</h1>
           </div>
@@ -197,7 +197,7 @@ const totalPrice = isAuthenticated ? cartInfo.totalPrice : 0;
 }
 
 .nav-links li a:hover {
-  color: #007bff;
+  color: #fbbf24;
 }
 
 .cart {
@@ -260,6 +260,15 @@ const totalPrice = isAuthenticated ? cartInfo.totalPrice : 0;
 } */
 
 @media (max-width: 768px) {
+  .header {
+    padding: 0px;
+  }
+
+  .navbar {
+    width: 100%;
+    border-radius: 0px;
+  }
+
   .nav-links {
     display: none;
   }

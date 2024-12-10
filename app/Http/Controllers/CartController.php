@@ -24,9 +24,7 @@ class CartController extends Controller
     public function cart() {
         $userId = Auth::id();
         $cartItems = Cart::session($userId)->getContent();
-        $totalPrice = $cartItems->sum(function ($item) {
-            return $item->price * $item->quantity;
-        });
+        $totalPrice = Cart::session($userId)->getSubTotal();
         return Inertia::render('Cart', [
             'cartItems' => $cartItems,
             'totalPrice' => $totalPrice,
@@ -51,10 +49,13 @@ class CartController extends Controller
 
     public function updateQuantity(Request $request ,$itemId) {
         $userId = Auth::id();
-        // $item = Product::find($itemId);
-        Cart::session($userId)->update($itemId, array(
-            'quantity' => $request->qty,
-        ));
+        $item = Product::find($itemId);
+        $itemCartQty = Cart::session($userId)->get($itemId)->quantity;
+        if ($itemCartQty + $request->input('qty') <= $item->stok) {
+            Cart::session($userId)->update($itemId, array(
+                'quantity' => $request->input('qty'),
+            )); 
+        }
     }
 
     public function remove($itemId) {

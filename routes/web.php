@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
@@ -43,11 +44,16 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
 // Cart
 Route::middleware(['auth', 'verified'])->group(function () {
+    // Cart
     Route::get('/getCartInfo', [CartController::class, 'getCartInfo'])->name('cartInfo');
     Route::get('/cart', [CartController::class, 'cart'])->name('cart');
-    Route::post('/cart/add/{itemId}', [CartController::class, 'add'])->name('cart.add');
-    Route::patch('/cart/updateQty/{itemId}', [CartController::class, 'updateQuantity'])->name('cart.updateqty');
-    Route::post('/cart/remove/{itemId}', [CartController::class, 'remove'])->name('cart.remove');
+    Route::post('/cart/add/{id}', [CartController::class, 'add'])->name('cart.add');
+    Route::patch('/cart/updateQty/{id}', [CartController::class, 'updateQuantity'])->name('cart.updateqty');
+    Route::post('/cart/remove/{id}', [CartController::class, 'remove'])->name('cart.remove');
+
+    // Transactions
+    Route::get('/checkout', [OrderController::class, 'checkout'])->name('checkout');
+    Route::post('/checkout/order', [OrderController::class, 'store'])->name('order');
 });
 
 // Pages
