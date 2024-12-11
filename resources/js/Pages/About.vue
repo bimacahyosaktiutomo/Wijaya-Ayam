@@ -5,7 +5,7 @@ import Header from '@/Components/Header.vue';
 
 <template>
   <div class="about">
-    <Header />
+    <Header activePage="about" />
     <section class="hero bg-about relative bg-cover bg-center h-screen">
       <div class="absolute inset-0 bg-gradient-to-r from-black via-transparent to-black z-0"></div>
       <div class="container mx-auto px-4 md:px-20 flex items-center justify-start h-full z-10">

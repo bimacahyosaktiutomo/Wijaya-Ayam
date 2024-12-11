@@ -1,5 +1,10 @@
 <script setup>
-import { Link } from '@inertiajs/vue3';
+import { Link, usePage } from '@inertiajs/vue3';
+import { defineProps } from 'vue';
+
+defineProps({
+    sideBarActive: String,
+});
 </script>
 
 <template>
@@ -7,41 +12,45 @@ import { Link } from '@inertiajs/vue3';
     <section class="flex bg-slate-100">
         <!-- Sidebar -->
         <div id="sidebar"
-            class="flex flex-col fixed z-50 -translate-x-full h-screen w-52 md:z-0 md:flex-shrink-0 md:flex-none md:top-0 md:sticky md:translate-x-0 md:w-64 px-6 border-r-2 border-r-amber-100 shadow-sm overflow-auto bg-white text-indigo-50 text-md hover-anim">
-            <div class="flex items-center space-x-7 md:h-32 font-bold md:text-xl text-gray-800 pt-7 pb-6">
-                <span><i class="fa-solid fa-chart-pie"></i></span>
-                <h1>DASHBOARD</h1>
-            </div>
-            <ul class="font-semibold md:text-lg text-gray-800 space-y-6 border-y-2 border-y-amber-100 py-8">
-                <li class="cursor-pointer hover-anim hover:text-amber-400">
+            class="flex flex-col fixed z-50 bg-gray-800 -translate-x-full h-screen w-52 md:z-0 md:flex-shrink-0 md:flex-none md:top-0 md:sticky md:translate-x-0 md:w-64 px-6 border-r-2 border-r-gray-400 shadow-sm overflow-auto text-indigo-50 text-md hover-anim">
+            <Link :href="route('home')" class="max-w-full self-center h-20 flex items-center">
+                <!-- LOGO UDAH DI CUSTOM -->
+                <img src="../assets/LogoWijayaAyam2.png" alt="" class="invert md:w-36 w-20 object-contain"> 
+            </Link>
+            <ul class="font-semibold md:text-lg text-white space-y-6 border-y-2 border-y-gray-400 py-8">
+                <li :class="{ 'text-amber-400': sideBarActive === 'product', }"
+                    class="cursor-pointer hover-anim hover:text-amber-400">
                     <Link :href="route('dashboard.product')" class="sidebar-item flex justify-between items-center">
                     <i class="sidebar-icon w-1/3 fa-solid fa-boxes-stacked"></i>
                     <span class="w-full ">Produk</span>
                     </Link>
                 </li>
-                <li class="cursor-pointer hover-anim hover:text-amber-400">
+                <li :class="{ 'text-amber-400': sideBarActive === 'user', }"
+                    class="cursor-pointer hover-anim hover:text-amber-400">
                     <Link :href="route('dashboard.user')" class="sidebar-item flex justify-between items-center">
                     <i class="sidebar-icon w-1/3 fa-solid fa-user"></i>
                     <span class="w-full">User</span>
                     </Link>
                 </li>
-                <li class="cursor-pointer hover-anim hover:text-amber-400">
+                <li :class="{ 'text-amber-400': sideBarActive === 'order', }"
+                    class="cursor-pointer hover-anim hover:text-amber-400">
                     <Link :href="route('dashboard.order')" class="sidebar-item flex justify-between items-center">
                     <i class="sidebar-icon w-1/3 fa-solid fa-cart-flatbed"></i>
                     <span class="w-full">Order</span>
                     </Link>
                 </li>
             </ul>
-            <Link :href="route('home')" class="mt-auto mb-6 font-semibold text-gray-800 flex justify-between items-center">
-                <i class="sidebar-icon w-1/3 fa-solid fa-house"></i>
-                <span class="w-full">Back</span>
+            <Link :href="route('home')"
+                class="mt-auto mb-6 font-semibold text-white hover:text-amber-400 transition flex justify-between items-center">
+            <i class="sidebar-icon w-1/3 fa-solid fa-house"></i>
+            <span class="w-full">Back</span>
             </Link>
         </div>
 
         <div class="flex-grow">
             <!-- Header -->
             <header
-                class="flex flex-row justify-between w-full sticky md:h-32 top-0 z-10 shadow-sm bg-white py-4 px-2 space-x-2 border-b-2 border-b-amber-100">
+                class="flex flex-row justify-between w-full sticky md:h-20 top-0 z-10 shadow-sm bg-white py-4 px-2 space-x-2 border-b-2">
                 <div id="hamburger-button-container"
                     class="flex justify-evenly items-center w-2/12 hover-anim md:hidden">
                     <button id="hamburger-button" class="" @click="toggleSideBar()">
@@ -49,10 +58,10 @@ import { Link } from '@inertiajs/vue3';
                         <i id="hidden-hamburger-button" class="xs:hidden fa-solid fa-bars hover-anim"></i>
                     </button>
                 </div>
-                <Link :href="route('home')" class="max-w-full self-center h-auto object-contain md:w-36 w-20 ">
-                    <!-- LOGO UDAH DI CUSTOM -->
-                    <img src="../assets/LogoWijayaAyam2.png" alt="">
-                </Link>
+                <div class="items-center space-x-7 font-bold md:text-xl text-gray-800 pt-7 pb-6 md:flex hidden">
+                    <span><i class="fa-solid fa-chart-pie"></i></span>
+                    <h1>DASHBOARD</h1>
+                </div>
                 <div class="flex flex-col px-2 self-center">
                     <nav class="flex md:justify-between justify-end w-full md:space-x-10">
                         <div class="flex flex-row">
@@ -109,22 +118,22 @@ function toggleSideBar() {
     const hidden_hamburger_button = document.getElementById("hidden-hamburger-button");
     const descendant = sidebar.querySelectorAll("i, span, #sidebar-name");
     const sidebar_item = sidebar.querySelectorAll(".sidebar-item");
-        if (isMinimized) {
-            sidebar.classList.remove("-translate-x-full");
-            sidebar.classList.add("translate-x-0");
-            hidden_hamburger_button.classList.add("rotate-90");
-            hidden_hamburger_button.classList.remove("fa-bars");
-            hidden_hamburger_button.classList.add("fa-x");
-            overlay.classList.remove("hidden");
-        }
-        else {
-            sidebar.classList.add("-translate-x-full");
-            sidebar.classList.remove("translate-x-0");
-            hidden_hamburger_button.classList.remove("rotate-90");
-            hidden_hamburger_button.classList.remove("fa-x");
-            hidden_hamburger_button.classList.add("fa-bars");
-            overlay.classList.add("hidden");
-        }
+    if (isMinimized) {
+        sidebar.classList.remove("-translate-x-full");
+        sidebar.classList.add("translate-x-0");
+        hidden_hamburger_button.classList.add("rotate-90");
+        hidden_hamburger_button.classList.remove("fa-bars");
+        hidden_hamburger_button.classList.add("fa-x");
+        overlay.classList.remove("hidden");
+    }
+    else {
+        sidebar.classList.add("-translate-x-full");
+        sidebar.classList.remove("translate-x-0");
+        hidden_hamburger_button.classList.remove("rotate-90");
+        hidden_hamburger_button.classList.remove("fa-x");
+        hidden_hamburger_button.classList.add("fa-bars");
+        overlay.classList.add("hidden");
+    }
     // }
     isMinimized = !isMinimized;
 }
@@ -135,7 +144,7 @@ window.addEventListener('resize', () => {
             toggleSideBar();
             // console.log('click');
         }
-    } 
+    }
 });
 
 

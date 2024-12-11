@@ -35,7 +35,7 @@ function addToCart(itemId) {
 
 <template>
   <div class="home">
-    <Header/>
+    <Header activePage="home" />
     <section class="hero bg-home relative bg-cover bg-center h-screen">
       <div class="absolute inset-0 bg-gradient-to-r from-black via-transparent to-black opacity-70 z-0"></div>
       <div class="container mx-auto px-4 md:px-20 flex items-center justify-start h-full z-10">

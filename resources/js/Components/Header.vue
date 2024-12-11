@@ -1,5 +1,6 @@
 <script setup>
 import { Link, router, usePage } from '@inertiajs/vue3';
+import { defineProps } from 'vue';
 
 const { cartInfo } = usePage().props;
 const isAuthenticated = usePage().props.auth.user !== null;
@@ -7,6 +8,10 @@ const isAuthenticated = usePage().props.auth.user !== null;
 const cartItems = isAuthenticated ? cartInfo.cartItems : [];
 const totalCartItems = isAuthenticated ? cartInfo.totalCartItems : 0;
 const totalPrice = isAuthenticated ? cartInfo.totalPrice : 0;
+
+defineProps({
+    activePage: String,
+});
 </script>
 
 <!-- Alternativ, bikin propsnya di script laen soalnya gak bisa di setup -->
@@ -37,17 +42,17 @@ Swal.fire({
       <ul class="nav-links">
         <li>
           <Link :href="route('home')">
-          <a>Home</a>
+          <h1 :class="{'text-amber-400': activePage === 'home',}">Home</h1>
           </Link>
         </li>
         <li>
           <Link :href="route('product')">
-          <a>Product</a>
+          <h1 :class="{'text-amber-400': activePage === 'product',}">Product</h1>
           </Link>
         </li>
         <li>
           <Link :href="route('about')">
-          <a>About</a>
+          <h1 :class="{'text-amber-400': activePage === 'about',}">About</h1>
           </Link>
         </li>
       </ul>

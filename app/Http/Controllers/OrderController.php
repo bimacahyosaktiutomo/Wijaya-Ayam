@@ -50,10 +50,9 @@ class OrderController extends Controller
         ]);
     }
     
-    public function fromDashboardDetail($idPemesanan, $idPelanggan) {
-        $order = Order::where('id_pelanggan', $idPelanggan)
-            ->where('id_pemesanan', $idPemesanan)
-            ->first(); // Kalo nyari sebiji pakai first
+    public function fromDashboardDetail($idPemesanan) {
+        $order = Order::where('id_pemesanan', $idPemesanan)->first(); // Kalo nyari sebiji pakai first
+        $idPelanggan = $order->id_pelanggan;
         $items = OrderDetail::where('id_pelanggan', $idPelanggan)
         ->where('id_pemesanan', $idPemesanan)
         ->latest()

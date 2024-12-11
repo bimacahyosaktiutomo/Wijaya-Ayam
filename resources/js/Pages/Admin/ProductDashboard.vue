@@ -5,7 +5,7 @@ const { products } = usePage().props;
 </script>
 
 <template>
-    <DashboardLayout>
+    <DashboardLayout sideBarActive="product">
         <div class="bg-white p-1 rounded-sm">
             <div class="flex justify-between px-8 my-4">
                 <h1 class="font-semibold text-xl">Product</h1>

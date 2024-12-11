@@ -27,7 +27,7 @@ function updateRole(newRole, userId) {
 </script>
 
 <template>
-    <DashboardLayout>
+    <DashboardLayout sideBarActive="user">
         <div class="bg-white p-1 rounded-sm">
             <div class="flex justify-between px-8 my-4">
                 <h1 class="font-semibold text-xl">User</h1>

@@ -16,7 +16,7 @@ function addToCart(itemId) { // Taro sini bukan di component ProductCard.vue
 </script>
 
 <template>
-  <Header/>
+  <Header activePage="product" />
   <section class="py-28 px-16 bg-slate-50 min-h-[80vh]">
     <div class="py-4 space-y-4"> <!-- Gak pake Grid karena udah ada flex-wrap dibawah -->
       <h1 class="text-2xl text-center font-bold">Produk Kami</h1>
