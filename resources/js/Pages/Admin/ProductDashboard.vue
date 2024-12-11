@@ -10,7 +10,7 @@ const { products } = usePage().props;
             <div class="flex justify-between px-8 my-4">
                 <h1 class="font-semibold text-xl">Product</h1>
                 <Link :href="route('dashboard.product.add')"
-                    class="bg-green-400 p-2 rounded-lg font-semibold hover:bg-green-500 hover-anim">
+                    class="bg-green-400 p-2 rounded-lg font-semibold hover:bg-green-500 hover-anim text-white">
                     Tambah
                 </Link>
             </div>

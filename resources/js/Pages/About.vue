@@ -8,7 +8,7 @@ import Header from '@/Components/Header.vue';
     <Header />
     <section class="hero bg-about relative bg-cover bg-center h-screen">
       <div class="absolute inset-0 bg-gradient-to-r from-black via-transparent to-black z-0"></div>
-      <div class="container mx-auto px-4 flex items-center justify-start h-full z-10">
+      <div class="container mx-auto px-4 md:px-20 flex items-center justify-start h-full z-10">
         <div class="text-white max-w-lg">
           <h2 class="text-4xl font-extrabold">Tentang Kami</h2>
           <p class="leading-relaxed text-lg">
@@ -89,23 +89,23 @@ import Header from '@/Components/Header.vue';
           <!-- Member 1 -->
           <div
             class="p-6 bg-white rounded-xl shadow-md hover:shadow-lg transform hover:-translate-y-2 transition duration-300">
-            <img src="../assets/background1.png" alt="CEO" class="w-24 h-24 rounded-full mx-auto mb-4 shadow-md" />
-            <h3 class="text-xl font-semibold text-gray-800">Bima Sakti</h3>
+            <img src="../assets/bima.jpg" alt="CEO" class="w-24 h-24 rounded-full mx-auto mb-4 shadow-md object-cover" />
+            <h3 class="text-xl font-semibold text-gray-800">Bimasakti Cahyo Utomo</h3>
             <p class="text-gray-600">CEO</p>
           </div>
           <!-- Member 2 -->
           <div
             class="p-6 bg-white rounded-xl shadow-md hover:shadow-lg transform hover:-translate-y-2 transition duration-300">
-            <img src="../assets/background1.png" alt="Head of Operations"
-              class="w-24 h-24 rounded-full mx-auto mb-4 shadow-md" />
+            <img src="../assets/aldi.jpg" alt="Head of Operations"
+              class="w-24 h-24 rounded-full mx-auto mb-4 shadow-md object-cover" />
             <h3 class="text-xl font-semibold text-gray-800">Aldi Solihin</h3>
             <p class="text-gray-600">Head of Operations</p>
           </div>
           <!-- Member 3 -->
           <div
             class="p-6 bg-white rounded-xl shadow-md hover:shadow-lg transform hover:-translate-y-2 transition duration-300">
-            <img src="../assets/background1.png" alt="Marketing Lead"
-              class="w-24 h-24 rounded-full mx-auto mb-4 shadow-md" />
+            <img src="../assets/ifandi.jpg" alt="Marketing Lead"
+              class="w-24 h-24 rounded-full mx-auto mb-4 shadow-md object-cover" />
             <h3 class="text-xl font-semibold text-gray-800">Muhammad Ifandi</h3>
             <p class="text-gray-600">Marketing Lead</p>
           </div>
@@ -122,7 +122,7 @@ import Header from '@/Components/Header.vue';
         </p>
       </div>
       <div class="location-map">
-        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3989.7142052423173!2d116.96279911085486!3d-0.4139223495802729!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2df6654162ab9acf%3A0xa0b7768e2e961493!2sPanji!5e0!3m2!1sid!2sid!4v1733239105245!5m2!1sid!2sid" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d428.8959203077844!2d116.97473055333546!3d-0.4237247569681256!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sid!2sid!4v1733880692643!5m2!1sid!2sid" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
       </div>
     </div>
   </section>
