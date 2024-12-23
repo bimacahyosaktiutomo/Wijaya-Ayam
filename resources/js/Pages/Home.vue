@@ -2,6 +2,7 @@
 import { Head, Link, usePage, router } from '@inertiajs/vue3';
 import Footer from '@/Components/Footer.vue';
 import Header from '@/Components/Header.vue';
+import { ref } from 'vue';
 
 const props = defineProps({
   canLogin: Boolean,
@@ -9,12 +10,15 @@ const props = defineProps({
 });
 
 const { products } = usePage().props;
+const cartKey = ref(0); // Buat reload/re-render header
 
 function addToCart(itemId) {
     router.post(`/cart/add/${itemId}`, {}, {
       onFinish: () => {
-        router.visit(route('home'),  {preserveScroll: true})
-      }
+        // router.visit(route('home'),  {preserveScroll: true})
+        cartKey.value++; // biar heeader nya reload pas proses selesai
+      },
+      preserveScroll: true, // nyimpan scroll pas update data, bukan buat visit atau get ke halaman sendiri / halaman lain
     })
   }
 </script>
@@ -35,7 +39,7 @@ function addToCart(itemId) {
 
 <template>
   <div class="home">
-    <Header activePage="home" />
+    <Header :key="cartKey" activePage="home" />
     <section class="hero bg-home relative bg-cover bg-center h-screen">
       <div class="absolute inset-0 bg-gradient-to-r from-black via-transparent to-black opacity-70 z-0"></div>
       <div class="container mx-auto px-4 md:px-20 flex items-center justify-start h-full z-10">
