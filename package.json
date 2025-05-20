@@ -21,9 +21,11 @@
     },
     "dependencies": {
         "@inertiajs/inertia": "^0.11.1",
+        "apexcharts": "^4.7.0",
         "daisyui": "^4.12.14",
         "flowbite": "^2.5.2",
         "moment": "^2.30.1",
-        "sweetalert2": "^11.14.5"
+        "sweetalert2": "^11.14.5",
+        "vue3-apexcharts": "^1.8.0"
     }
 }

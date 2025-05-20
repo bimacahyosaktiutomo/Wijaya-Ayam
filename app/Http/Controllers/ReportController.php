@@ -45,11 +45,20 @@ class ReportController extends Controller
             ->orderByDesc('label')
             ->get();
 
-    
+        $donutChartData = OrderDetail::selectRaw('
+                nama_produk as label,
+                SUM(kuantitas) as total_terjual
+            ')
+            ->whereHas('order', function ($query) {
+                $query->where('status_pemesanan', 'Selesai');
+            })
+            ->groupByRaw('nama_produk')
+            ->get();
 
         return Inertia::render('Admin/ReportDashboard', [
             'data' => $data,
             'produkList' => [],
+            'donut_chart_data' => $donutChartData,
             'group_by' => $groupBy,
         ]);
     }

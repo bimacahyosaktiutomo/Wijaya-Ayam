@@ -8,6 +8,7 @@ const props = defineProps({
   data: Array,
   group_by: String,
   produkList: Array,
+  donut_chart_data: Array,
 })
 
 const groupBy = ref(props.group_by || 'date')
@@ -37,6 +38,26 @@ function onGroupChange() {
     only: ['group_by', 'data', 'produkList'],
   })
 }
+
+const labels = props.donut_chart_data.map(item => item.label)
+const series = props.donut_chart_data.map(item => Number(item.total_terjual)) //harus pake number soalnya angkanya kebaca String
+console.log(labels)
+console.log(series)
+
+const options = ref({
+  chart: {
+    type: 'donut'
+  },
+  labels: labels,
+  responsive: [{
+    breakpoint: 480,
+    options: {
+      legend: {
+        position: 'bottom'
+      }
+    }
+  }]
+})
 </script>
 
 <template>
@@ -123,6 +144,18 @@ function onGroupChange() {
           </tr>
         </tbody>
       </table>
+    </div>
+
+    <div class="flex flex-col items-center space-y-2 md:flex-row md:justify-between md:space-x-2 md:space-y-0 my-2">
+      <div class="bg-white p-6 md:w-1/3 w-4/5 rounded shadow">
+        <apexchart class="flex justify-center " width="100%" type="donut" :options="options" :series="series"></apexchart>
+      </div>
+      <div class="bg-white p-6 md:w-1/3 w-4/5 rounded shadow">
+        <apexchart class="flex justify-center " width="100%" type="donut" :options="options" :series="series"></apexchart>
+      </div>
+      <div class="bg-white p-6 md:w-1/3 w-4/5 rounded shadow">
+        <apexchart class="flex justify-center " width="100%" type="donut" :options="options" :series="series"></apexchart>
+      </div>
     </div>
   </DashboardLayout>
 </template>

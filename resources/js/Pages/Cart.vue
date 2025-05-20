@@ -29,7 +29,7 @@ function removeItem(itemId) {
 </script>
 
 <template>
-    <Header :key="cartKey" />
+    <Header :key="cartKey" activePage="cart" />
     <section class="bg-slate-100 min-h-[80vh] py-20">
         <div class="py-1 md:py-10 lg:px-28 md:px-8 justify-center space-y-4">
             <h1 class="font-semibold text-2xl text-center">Cart</h1>

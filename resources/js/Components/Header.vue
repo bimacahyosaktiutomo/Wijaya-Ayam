@@ -60,13 +60,16 @@ Swal.fire({
         <li class="cart dropdown dropdown-hover dropdown-end">
           <Link :href="route('cart')">
           <a class="flex hover:text-amber-400 hover-anim">
-            <i class="text-xl fa-solid fa-cart-shopping"></i>
+            <i class="text-xl fa-solid fa-cart-shopping" :class="{'text-amber-400': activePage === 'cart',}"></i>
             <p v-if="$page.props.auth.user" class="text-xs">{{ totalCartItems }}</p>
           </a>
           </Link>
 
           <!-- Cart Content -->
-          <div class="dropdown-content menu relative w-[30rem] p-2 space-y-2 self-center bg-white border rounded-lg shadow-2xl">
+          <div :class="{
+              'dropdown-content menu relative w-[30rem] p-2 space-y-2 self-center bg-white border rounded-lg shadow-2xl': isAuthenticated,
+              'hidden': !isAuthenticated
+            }">
             <div class="flex text-lg font-semibold">
               <h1>Keranjang</h1>
               <span>({{ totalCartItems }})</span>
@@ -78,7 +81,8 @@ Swal.fire({
               <!-- Items -->
               <div v-for="item in cartItems" class="flex space-x-4">
                 <div class="flex flex-none justify-center w-1/4">
-                  <img class="w-20 h-20 object-contain" :src="`storage/${item.attributes.gambar}`" alt="{{ item.name }}" />
+                  <img class="w-20 h-20 object-contain" :src="`storage/${item.attributes.gambar}`"
+                    alt="{{ item.name }}" />
                 </div>
                 <div class="flex flex-col text-sm">
                   <h1 class="line-clamp-1">{{ item.name }}</h1>
