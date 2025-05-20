@@ -96,9 +96,9 @@ import Header from '@/Components/Header.vue';
           <!-- Member 2 -->
           <div
             class="p-6 bg-white rounded-xl shadow-md hover:shadow-lg transform hover:-translate-y-2 transition duration-300">
-            <img src="../assets/aldi.jpg" alt="Head of Operations"
+            <img src="../assets/maul.png" alt="Head of Operations"
               class="w-24 h-24 rounded-full mx-auto mb-4 shadow-md object-cover" />
-            <h3 class="text-xl font-semibold text-gray-800">Aldi Solihin</h3>
+            <h3 class="text-xl font-semibold text-gray-800">Maulana Agus Setiawan</h3>
             <p class="text-gray-600">Head of Operations</p>
           </div>
           <!-- Member 3 -->
