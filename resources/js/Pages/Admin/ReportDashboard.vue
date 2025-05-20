@@ -2,21 +2,39 @@
 import DashboardLayout from '@/Layouts/DashboardLayout.vue'
 import { ref } from 'vue'
 import { router } from '@inertiajs/vue3'
+import axios from 'axios'
 
 const props = defineProps({
   data: Array,
   group_by: String,
+  produkList: Array,
 })
 
 const groupBy = ref(props.group_by || 'date')
+const openProduk = ref(null)
+const produkData = ref({})
 
-function applyGroup() {
+function toggleProduk(produk) {
+  openProduk.value = openProduk.value === produk ? null : produk
+}
+
+function fetchProdukReport(produk, tanggal) {
+  if (!tanggal) return
+  axios.get(route('dashboard.report.productByDate'), {
+    params: { produk, tanggal },
+  }).then(res => {
+    produkData.value[produk] = {
+      tanggal,
+      total_terjual: res.data.total_terjual ?? 0,
+      total_penjualan: res.data.total_penjualan ?? 0,
+    }
+  })
+}
+
+function onGroupChange() {
   router.visit(route('dashboard.report'), {
-    method: 'get',
-    preserveState: true,
-    preserveScroll: true,
-    only: ['data', 'group_by'],
     data: { group_by: groupBy.value },
+    only: ['group_by', 'data', 'produkList'],
   })
 }
 </script>
@@ -27,38 +45,81 @@ function applyGroup() {
       <div class="flex justify-between items-center mb-4">
         <h1 class="text-2xl font-bold">Laporan Penjualan</h1>
         <div>
-          <label class="mr-2">Group By:</label>
+          <label class="mr-2">Sortir:</label>
           <select
             v-model="groupBy"
-            @change="applyGroup"
+            @change="onGroupChange"
             class="border rounded px-3 py-2"
           >
             <option value="date">Per Hari</option>
             <option value="month">Per Bulan</option>
-            <option value="product">Per Produk</option>
+            <option value="product">Per Produk per Hari</option>
           </select>
         </div>
       </div>
 
-      <table class="min-w-full border border-gray-300">
+      <table v-if="groupBy === 'product'" class="min-w-full border border-gray-300">
         <thead class="bg-gray-200">
           <tr>
-            <th class="px-4 py-2 border">Label</th>
-            <th class="px-4 py-2 border">Total Penjualan</th>
-            <th class="px-4 py-2 border" v-if="groupBy === 'product'">Total Terjual</th>
-            <th class="px-4 py-2 border" v-else>Jumlah Transaksi</th>
+            <th class="px-4 py-2 border text-left">Nama Produk</th>
+            <th class="px-4 py-2 border text-center">Total Terjual</th>
+            <th class="px-4 py-2 border text-center">Total Penjualan</th>
+            <th class="px-4 py-2 border text-center"></th>
           </tr>
         </thead>
         <tbody>
-          <tr v-if="data.length === 0">
-            <td colspan="3" class="px-4 py-2 text-center">Tidak ada data</td>
+          <template v-for="produk in produkList" :key="produk.nama_produk">
+            <tr
+              class="cursor-pointer hover:bg-gray-50"
+              @click="toggleProduk(produk.nama_produk)"
+            >
+              <td class="px-4 py-2 border">{{ produk.nama_produk }}</td>
+              <td class="px-4 py-2 border text-center">{{ produk.total_terjual }}</td>
+              <td class="px-4 py-2 border text-center">Rp {{ produk.total_penjualan.toLocaleString() }}</td>
+              <td class="px-4 py-2 border text-center">
+                {{ openProduk === produk.nama_produk ? '▲' : '▼' }}
+              </td>
+            </tr>
+
+            <tr v-if="openProduk === produk.nama_produk">
+              <td colspan="4" class="bg-gray-50 px-6 py-4">
+                <div class="flex flex-col md:flex-row gap-4 items-start md:items-center">
+                  <div>
+                    📅 <label class="mr-2 font-medium">Pilih Tanggal:</label>
+                    <input
+                      type="date"
+                      @change="e => fetchProdukReport(produk.nama_produk, e.target.value)"
+                      class="border px-2 py-1 rounded"
+                    />
+                  </div>
+                  <div>
+                    🛒 <strong>Total Terjual:</strong>
+                    {{ produkData[produk.nama_produk]?.total_terjual ?? '-' }}
+                  </div>
+                  <div>
+                    💰 <strong>Total Penjualan:</strong>
+                    Rp {{ (produkData[produk.nama_produk]?.total_penjualan ?? 0).toLocaleString() }}
+                  </div>
+                </div>
+              </td>
+            </tr>
+          </template>
+        </tbody>
+      </table>
+
+      <table v-else class="min-w-full border border-gray-300">
+        <thead class="bg-gray-200">
+          <tr>
+            <th class="px-4 py-2 border">Tanggal</th>
+            <th class="px-4 py-2 border">Total Penjualan</th>
+            <th class="px-4 py-2 border">Jumlah Transaksi</th>
           </tr>
-          <tr v-for="(item, idx) in data" :key="idx" class="text-center border-b hover:bg-gray-50">
+        </thead>
+        <tbody>
+          <tr v-for="(item, idx) in data" :key="idx">
             <td class="px-4 py-2 border">{{ item.label }}</td>
             <td class="px-4 py-2 border">Rp {{ item.total_penjualan.toLocaleString() }}</td>
-            <td class="px-4 py-2 border">
-              {{ groupBy === 'product' ? item.total_terjual : item.jumlah_transaksi }}
-            </td>
+            <td class="px-4 py-2 border">{{ item.jumlah_transaksi }}</td>
           </tr>
         </tbody>
       </table>

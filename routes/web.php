@@ -47,6 +47,8 @@ Route::middleware(['auth', 'verified', 'role:admin'])->group(function () {
     Route::patch('/dashboard/order/status/{id}', [OrderController::class, 'updateStatus'])->name('dashboard.order.status');
 
     Route::get('/dashboard/report', [ReportController::class, 'index'])->name('dashboard.report');
+    Route::get('/dashboard/report/product-by-date', [ReportController::class, 'productReportByDate'])->name('dashboard.report.productByDate');
+
 });
 //langsung semua
 // Route::resource('dashboard', ProductController::class);
