@@ -5,6 +5,7 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\ReportController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -44,6 +45,8 @@ Route::middleware(['auth', 'verified', 'role:admin'])->group(function () {
     Route::get('/dashboard/order/', [OrderController::class, 'dashboard'])->name('dashboard.order');
     Route::get('/dashboard/order/{id}/details/', [OrderController::class, 'fromDashboardDetail'])->name('dashboard.order.details');
     Route::patch('/dashboard/order/status/{id}', [OrderController::class, 'updateStatus'])->name('dashboard.order.status');
+
+    Route::get('/dashboard/report', [ReportController::class, 'index'])->name('dashboard.report');
 });
 //langsung semua
 // Route::resource('dashboard', ProductController::class);

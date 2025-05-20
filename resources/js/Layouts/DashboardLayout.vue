@@ -39,6 +39,14 @@ defineProps({
                     <span class="w-full">Order</span>
                     </Link>
                 </li>
+                <!-- ✅ Tambahkan Report di sini -->
+                <li :class="{ 'text-amber-400': sideBarActive === 'report' }"
+                    class="cursor-pointer hover-anim hover:text-amber-400">
+                    <Link :href="route('dashboard.report')" class="sidebar-item flex justify-between items-center">
+                        <i class="sidebar-icon w-1/3 fa-solid fa-chart-column"></i>
+                        <span class="w-full">Report</span>
+                    </Link>
+                </li>
             </ul>
             <Link :href="route('home')"
                 class="mt-auto mb-6 font-semibold text-white hover:text-amber-400 transition flex justify-between items-center">
