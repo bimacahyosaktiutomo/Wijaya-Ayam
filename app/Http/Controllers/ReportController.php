@@ -58,6 +58,8 @@ class ReportController extends Controller
                 'data' => [],
                 'produkList' => $produkList,
                 'donut_chart_data' => $donutChartData,
+                'line_chart_data' => $lineData,
+                'line_group_by' => $groupByLineData,
                 'group_by' => $groupBy,
             ]);
         }
