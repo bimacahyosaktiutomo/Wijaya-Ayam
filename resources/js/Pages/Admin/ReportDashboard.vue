@@ -16,6 +16,9 @@ const props = defineProps({
 const groupBy = ref(props.group_by || 'date')
 const openProduk = ref(null)
 const produkData = ref({})
+const dateRangeData = ref({})
+const startDates = ref({})
+const endDates = ref({})
 
 function toggleProduk(produk) {
   openProduk.value = openProduk.value === produk ? null : produk
@@ -28,6 +31,20 @@ function fetchProdukReport(produk, tanggal) {
   }).then(res => {
     produkData.value[produk] = {
       tanggal,
+      total_terjual: res.data.total_terjual ?? 0,
+      total_penjualan: res.data.total_penjualan ?? 0,
+    }
+  })
+}
+
+function fetchProdukReportByDateRange(produk, start, end) {
+  if (!start || !end) return
+  axios.get(route('dashboard.report.productByDateRange'), {
+    params: { produk, start, end },
+  }).then(res => {
+    dateRangeData.value[produk] = {
+      start,
+      end,
       total_terjual: res.data.total_terjual ?? 0,
       total_penjualan: res.data.total_penjualan ?? 0,
     }
@@ -140,7 +157,11 @@ const lineOptions = {
         <h1 class="text-2xl font-bold">Laporan Penjualan</h1>
         <div>
           <label class="mr-2">Sortir:</label>
-          <select v-model="groupBy" @change="onGroupChange" class="border rounded px-3 py-2">
+          <select
+            v-model="groupBy"
+            @change="onGroupChange"
+            class="border rounded px-3 py-2"
+          >
             <option value="date">Per Hari</option>
             <option value="month">Per Bulan</option>
             <option value="product">Per Produk per Hari</option>
@@ -159,7 +180,10 @@ const lineOptions = {
         </thead>
         <tbody>
           <template v-for="produk in produkList" :key="produk.nama_produk">
-            <tr class="cursor-pointer hover:bg-gray-50" @click="toggleProduk(produk.nama_produk)">
+            <tr
+              class="cursor-pointer hover:bg-gray-50"
+              @click="toggleProduk(produk.nama_produk)"
+            >
               <td class="px-4 py-2 border">{{ produk.nama_produk }}</td>
               <td class="px-4 py-2 border text-center">{{ produk.total_terjual }}</td>
               <td class="px-4 py-2 border text-center">Rp {{ produk.total_penjualan.toLocaleString() }}</td>
@@ -168,13 +192,16 @@ const lineOptions = {
               </td>
             </tr>
 
-            <tr v-if="openProduk === produk.nama_produk">
-              <td colspan="4" class="bg-gray-50 px-6 py-4">
+           <tr v-if="openProduk === produk.nama_produk">
+              <td colspan="4" class="bg-gray-50 px-6 py-4 space-y-4">
                 <div class="flex flex-col md:flex-row gap-4 items-start md:items-center">
                   <div>
                     📅 <label class="mr-2 font-medium">Pilih Tanggal:</label>
-                    <input type="date" @change="e => fetchProdukReport(produk.nama_produk, e.target.value)"
-                      class="border px-2 py-1 rounded" />
+                    <input
+                      type="date"
+                      @change="e => fetchProdukReport(produk.nama_produk, e.target.value)"
+                      class="border px-2 py-1 rounded"
+                    />
                   </div>
                   <div>
                     🛒 <strong>Total Terjual:</strong>
@@ -183,6 +210,35 @@ const lineOptions = {
                   <div>
                     💰 <strong>Total Penjualan:</strong>
                     Rp {{ (produkData[produk.nama_produk]?.total_penjualan ?? 0).toLocaleString() }}
+                  </div>
+                </div>
+
+                <hr class="my-4"/>
+
+                <div class="flex flex-col md:flex-row gap-4 items-start md:items-center">
+                  <div>
+                    📆 <label class="mr-2 font-medium">Rentang Tanggal:</label>
+                        <input
+                          type="date"
+                          v-model="startDates[produk.nama_produk]"
+                          @change="() => fetchProdukReportByDateRange(produk.nama_produk, startDates[produk.nama_produk], endDates[produk.nama_produk])"
+                          class="border px-2 py-1 rounded mr-2"
+                        />
+                        s/d
+                        <input
+                          type="date"
+                          v-model="endDates[produk.nama_produk]"
+                          @change="() => fetchProdukReportByDateRange(produk.nama_produk, startDates[produk.nama_produk], endDates[produk.nama_produk])"
+                          class="border px-2 py-1 rounded ml-2"
+                        />
+                  </div>
+                  <div>
+                    🛒 <strong>Total Terjual:</strong>
+                    {{ dateRangeData[produk.nama_produk]?.total_terjual ?? '-' }}
+                  </div>
+                  <div>
+                    💰 <strong>Total Penjualan:</strong>
+                    Rp {{ (dateRangeData[produk.nama_produk]?.total_penjualan ?? 0).toLocaleString() }}
                   </div>
                 </div>
               </td>
@@ -209,7 +265,7 @@ const lineOptions = {
       </table>
     </div>
 
-    <!-- <div class="flex flex-col items-center space-y-2 md:flex-row md:justify-between md:space-x-2 md:space-y-0 my-2 "> -->
+<!-- <div class="flex flex-col items-center space-y-2 md:flex-row md:justify-between md:space-x-2 md:space-y-0 my-2 "> -->
     <div class="grid md:grid-cols-2 md:space-x-5 space-y-2 md:space-y-0 my-2">
       <div class="bg-white p-6 rounded shadow">
         <apexchart class="flex justify-center " width="80%" type="pie" :options="donutOptions" :series="donutSeries"></apexchart>
