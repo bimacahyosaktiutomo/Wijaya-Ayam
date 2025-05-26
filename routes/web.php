@@ -46,8 +46,9 @@ Route::middleware(['auth', 'verified', 'role:admin'])->group(function () {
     Route::get('/dashboard/order/{id}/details/', [OrderController::class, 'fromDashboardDetail'])->name('dashboard.order.details');
     Route::patch('/dashboard/order/status/{id}', [OrderController::class, 'updateStatus'])->name('dashboard.order.status');
 
-    Route::get('/dashboard/report', [ReportController::class, 'index'])->name('dashboard.report');
+    Route::get('/dashboard/report', [ReportController::class, 'dashboard'])->name('dashboard.report');
     Route::get('/dashboard/report/product-by-date', [ReportController::class, 'productReportByDate'])->name('dashboard.report.productByDate');
+    Route::get('/dashboard/report/productByDateRange', [ReportController::class, 'productReportByDateRange'])->name('dashboard.report.productByDateRange');
 
 });
 //langsung semua
