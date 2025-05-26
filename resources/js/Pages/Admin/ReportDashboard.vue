@@ -9,6 +9,8 @@ const props = defineProps({
   group_by: String,
   produkList: Array,
   donut_chart_data: Array,
+  line_chart_data: Array,
+  line_group_by: String,
 })
 
 const groupBy = ref(props.group_by || 'date')
@@ -56,15 +58,17 @@ function onGroupChange() {
   })
 }
 
-// Donut Chart setup
-const labels = props.donut_chart_data.map(item => item.label)
-const series = props.donut_chart_data.map(item => Number(item.total_terjual)) // ensure number type
+const donutLabels = props.donut_chart_data.map(item => item.label)
+const donutSeries = props.donut_chart_data.map(item => Number(item.total_terjual)) //harus pake number soalnya angkanya kebaca String
 
-const options = ref({
+const donutOptions = ref({
+  title: {
+    text: 'Distribusi Penjualan Produk'
+  },
   chart: {
     type: 'donut'
   },
-  labels: labels,
+  labels: donutLabels,
   responsive: [{
     breakpoint: 480,
     options: {
@@ -74,6 +78,76 @@ const options = ref({
     }
   }]
 })
+
+const lineGroupBy = ref(props.line_group_by || 'month')
+
+function onLineGroupChange() {
+  router.visit(route('dashboard.report'), {
+    data: { line_group_by: lineGroupBy.value },
+    only: ['line_chart_data', 'line_group_by'],
+    preserveScroll: true,
+    // preserveState: true,
+  })
+}
+
+const lineLabels = props.line_chart_data.map(item => item.label);
+const lineSeries = [
+  {
+    name: 'Total Penjualan',
+    type: 'column',
+    data: props.line_chart_data.map(item => Number(item.total_penjualan)),
+  },
+  {
+    name: 'Jumlah Transaksi',
+    type: 'line',
+    data: props.line_chart_data.map(item => Number(item.jumlah_transaksi)),
+  }
+];
+
+const lineOptions = {
+  chart: {
+    type: 'line',
+    zoom: {
+      enabled: false
+    },
+  },
+  title: {
+    text: 'Data Penjualan Bulanan',
+    align: 'left'
+  },
+  xaxis: {
+    categories: lineLabels,
+  },
+  yaxis: [
+    {
+      labels: {
+        formatter: (val) => 'Rp. ' + val.toLocaleString('id-ID'),
+      }
+    }, 
+    {
+      opposite: true,
+      labels: {
+      formatter: val => Math.round(val)
+    }
+    }],
+  markers: {
+    size: 1
+  },
+  dataLabels: {
+    enabled: true,
+    formatter: function(val, opts) {
+      if (opts.seriesIndex === 0) return 'Rp. ' + val.toLocaleString('id-ID'); // Biar Total Penjualan aja yg ada Rp. nya
+      else return val;
+    },
+  },
+  legend: {
+    position: 'top',
+    horizontalAlign: 'right',
+    floating: true,
+    offsetY: -25,
+    offsetX: -5
+  }
+};
 </script>
 
 <template>
@@ -191,15 +265,19 @@ const options = ref({
       </table>
     </div>
 
-    <div class="flex flex-col items-center space-y-2 md:flex-row md:justify-between md:space-x-2 md:space-y-0 my-2">
-      <div class="bg-white p-6 md:w-1/3 w-4/5 rounded shadow">
-        <apexchart class="flex justify-center " width="100%" type="donut" :options="options" :series="series"></apexchart>
+<!-- <div class="flex flex-col items-center space-y-2 md:flex-row md:justify-between md:space-x-2 md:space-y-0 my-2 "> -->
+    <div class="grid md:grid-cols-2 md:space-x-5 space-y-2 md:space-y-0 my-2">
+      <div class="bg-white p-6 rounded shadow">
+        <apexchart class="flex justify-center " width="80%" type="pie" :options="donutOptions" :series="donutSeries"></apexchart>
       </div>
-      <div class="bg-white p-6 md:w-1/3 w-4/5 rounded shadow">
-        <apexchart class="flex justify-center " width="100%" type="donut" :options="options" :series="series"></apexchart>
-      </div>
-      <div class="bg-white p-6 md:w-1/3 w-4/5 rounded shadow">
-        <apexchart class="flex justify-center " width="100%" type="donut" :options="options" :series="series"></apexchart>
+      <div class="bg-white p-6 rounded shadow">
+        <label class="mr-2">Sortir:</label>
+        <select v-model="lineGroupBy" @change="onLineGroupChange" class="border rounded px-3 py-2">
+          <option value="day">Per Hari</option>
+          <option value="month">Per Bulan</option>
+        </select>
+        <input v-if="lineGroupBy === 'day'" class="border rounded px-3 py-2" type="month" name="" id="">
+        <apexchart class="flex justify-center items-center" width="100%" type="line" :options="lineOptions" :series="lineSeries"></apexchart>
       </div>
     </div>
   </DashboardLayout>

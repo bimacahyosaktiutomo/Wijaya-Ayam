@@ -12,14 +12,35 @@ class ReportController extends Controller
     {
         $groupBy = $request->get('group_by', 'date');
         $donutChartData = OrderDetail::selectRaw('
-            nama_produk as label,
-            SUM(kuantitas) as total_terjual
-        ')
-        ->whereHas('order', function ($query) {
-            $query->where('status_pemesanan', 'Selesai');
-        })
-        ->groupByRaw('nama_produk')
-        ->get();
+                nama_produk as label,
+                SUM(kuantitas) as total_terjual
+            ')
+            ->whereHas('order', function ($query) {
+                $query->where('status_pemesanan', 'Selesai');
+            })
+            ->groupByRaw('nama_produk')
+            ->get();
+
+        // LineChart
+        $groupByLineData = $request->get('line_group_by', 'month');
+
+        if ($groupByLineData === 'month') {
+            $selectLineDataFormat = "DATE_FORMAT(created_at, '%b %y')"; // e.g. Jan 24
+            $orderByFormat = "STR_TO_DATE(label, '%b %y')";
+        } else {
+            $selectLineDataFormat = "DATE_FORMAT(created_at, '%d %b %y')"; // e.g. 15 Jan 24
+            $orderByFormat = "STR_TO_DATE(label, '%d %b %y')";
+        }
+
+        $lineData = Order::selectRaw("
+                {$selectLineDataFormat} as label,
+                SUM(total_harga) as total_penjualan,
+                COUNT(*) as jumlah_transaksi
+            ")
+            ->where('status_pemesanan', 'Selesai')
+            ->groupByRaw($selectLineDataFormat)
+            ->orderByRaw("{$orderByFormat} ASC")
+            ->get();
 
         if ($groupBy === 'product') {
             $produkList = OrderDetail::selectRaw('
@@ -59,8 +80,11 @@ class ReportController extends Controller
             'data' => $data,
             'produkList' => [],
             'donut_chart_data' => $donutChartData,
+            'line_chart_data' => $lineData,
+            'line_group_by' => $groupByLineData,
             'group_by' => $groupBy,
         ]);
+
     }
 
     public function productReportByDate(Request $request)
