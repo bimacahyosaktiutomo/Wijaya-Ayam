@@ -75,7 +75,7 @@ defineProps({
                         <div class="flex flex-row">
                             <div id="UserDropdown"
                                 class="dropdown dropdown-hover dropdown-bottom dropdown-end flex cursor-pointer p-1 rounded-md md:hover:bg-amber-200 hover-anim">
-                                <Link :href="route('logout')" method="post" as="button" class="flex p-2">
+                                <!-- <Link :href="route('logout')" method="post" as="button" class="flex p-2"> -->
                                 <button
                                     class="flex text-gray-800 md:text-2xl md:mr-2 mr-0 md:p-0 px-1 hover:bg-amber-200 rounded-lg hover-anim">
                                     <i class="self-center fa-regular fa-user xs:align-top hover:text-indigo-800"></i>
@@ -84,7 +84,7 @@ defineProps({
                                     <p class="text-xs">Welcome back,</p>
                                     <p class="font-semibold"> {{ $page.props.auth.user.name }}</p>
                                 </div>
-                                </Link>
+                                <!-- </Link> -->
 
                                 <!-- Dropdown Item -->
                                 <ul tabindex="0"

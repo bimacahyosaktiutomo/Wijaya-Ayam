@@ -137,7 +137,7 @@ Swal.fire({
               </Link>
             </li>
             <li>
-              <Link :href="route('logout')" method="post" as="button" class="text-red-500">
+              <Link :href="route('logout')" method="post" as="button" class="text-red-500 font-bold bg-red-200">
               Logout
               </Link>
             </li>
