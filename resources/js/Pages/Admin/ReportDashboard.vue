@@ -56,7 +56,7 @@ function fetchProdukReportByDateRange(produk, start, end) {
 function onGroupChange() {
   router.reload( { // Khusus ke halaman yg sama biar bisa pake preserveScroll
     data: { group_by: groupBy.value },
-    only: ['group_by', 'data', 'produkList'],
+    only: ['group_by', 'data', 'produkList'], // "only" ni buat ngerefresh data yg dibuthin aja
     preserveScroll: true,
   })
 }

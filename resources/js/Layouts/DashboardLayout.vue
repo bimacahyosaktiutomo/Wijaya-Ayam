@@ -2,6 +2,10 @@
 import { Link, usePage } from '@inertiajs/vue3';
 import { defineProps } from 'vue';
 
+const isAuthenticated = usePage().props.auth.user !== null;
+const totalSales = isAuthenticated ? usePage().props.auth.totalSales : null
+const totalUser = isAuthenticated ? usePage().props.auth.totalUser : null
+
 defineProps({
     sideBarActive: String,
 });
@@ -14,8 +18,8 @@ defineProps({
         <div id="sidebar"
             class="flex flex-col fixed z-50 bg-gray-800 -translate-x-full h-screen w-52 md:z-0 md:flex-shrink-0 md:flex-none md:top-0 md:sticky md:translate-x-0 md:w-64 px-6 border-r-2 border-r-gray-400 shadow-sm overflow-auto text-indigo-50 text-md hover-anim">
             <Link :href="route('home')" class="max-w-full self-center h-20 flex items-center">
-                <!-- LOGO UDAH DI CUSTOM -->
-                <img src="../assets/LogoWijayaAyam2.png" alt="" class="invert md:w-36 w-20 object-contain"> 
+            <!-- LOGO UDAH DI CUSTOM -->
+            <img src="../assets/LogoWijayaAyam2.png" alt="" class="invert md:w-36 w-20 object-contain">
             </Link>
             <ul class="font-semibold md:text-lg text-white space-y-6 border-y-2 border-y-gray-400 py-8">
                 <li :class="{ 'text-amber-400': sideBarActive === 'product', }"
@@ -43,8 +47,8 @@ defineProps({
                 <li :class="{ 'text-amber-400': sideBarActive === 'report' }"
                     class="cursor-pointer hover-anim hover:text-amber-400">
                     <Link :href="route('dashboard.report')" class="sidebar-item flex justify-between items-center">
-                        <i class="sidebar-icon w-1/3 fa-solid fa-chart-column"></i>
-                        <span class="w-full">Report</span>
+                    <i class="sidebar-icon w-1/3 fa-solid fa-chart-column"></i>
+                    <span class="w-full">Report</span>
                     </Link>
                 </li>
             </ul>
@@ -108,7 +112,33 @@ defineProps({
                     </nav>
                 </div>
             </header>
+            <div class="flex justify-center px-36 my-2 gap-6">
+                <div
+                    class="bg-gradient-to-r from-green-500 to-green-200 text-white rounded-2xl shadow-lg p-6 w-1/3 transform hover:scale-105 transition duration-300 ease-in-out">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-sm uppercase font-semibold opacity-80">Total Penjualan</p>
+                            <h1 class="font-bold mt-1">Rp. {{ totalSales }}</h1>
+                        </div>
+                        <div class="text-5xl">
+                            💰
+                        </div>
+                    </div>
+                </div>
 
+                <div
+                    class="bg-gradient-to-r from-indigo-500 to-indigo-200 text-white rounded-2xl shadow-lg p-6 w-1/3 transform hover:scale-105 transition duration-300 ease-in-out">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-sm uppercase font-semibold opacity-80">Total User</p>
+                            <h1 class="font-bold mt-1">{{ totalUser }}</h1>
+                        </div>
+                        <div class="text-5xl">
+                            👥
+                        </div>
+                    </div>
+                </div>
+            </div>
             <!-- Content -->
             <main class="flex-grow p-3">
                 <slot />

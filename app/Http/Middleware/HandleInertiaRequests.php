@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\Order;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
 use Tighten\Ziggy\Ziggy;
@@ -41,6 +42,8 @@ class HandleInertiaRequests extends Middleware
                 'role' => fn () => $request->user() 
                 ? $request->user()->getRoleNames()->first() // Gets the user's primary role
                 : null,
+                'totalSales' =>Order::where('status_pemesanan', 'Selesai')->sum('total_harga'),
+                'totalUser' => User::role('User')->count(),
             ],
             'ziggy' => fn () => [
                 ...(new Ziggy)->toArray(),
