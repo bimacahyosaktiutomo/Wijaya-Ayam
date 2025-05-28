@@ -1,5 +1,6 @@
 <script setup>
 import DashboardLayout from '@/Layouts/DashboardLayout.vue'
+import Chart from '@/Components/Chart.vue'
 import { ref } from 'vue'
 import { router } from '@inertiajs/vue3'
 import axios from 'axios'
@@ -11,6 +12,7 @@ const props = defineProps({
   donut_chart_data: Array,
   line_chart_data: Array,
   line_group_by: String,
+  line_selected_month: String,
 })
 
 const groupBy = ref(props.group_by || 'date')
@@ -52,102 +54,35 @@ function fetchProdukReportByDateRange(produk, start, end) {
 }
 
 function onGroupChange() {
-  router.visit(route('dashboard.report'), {
+  router.reload( { // Khusus ke halaman yg sama biar bisa pake preserveScroll
     data: { group_by: groupBy.value },
     only: ['group_by', 'data', 'produkList'],
+    preserveScroll: true,
   })
 }
-
-const donutLabels = props.donut_chart_data.map(item => item.label)
-const donutSeries = props.donut_chart_data.map(item => Number(item.total_terjual)) //harus pake number soalnya angkanya kebaca String
-
-const donutOptions = ref({
-  title: {
-    text: 'Distribusi Penjualan Produk'
-  },
-  chart: {
-    type: 'donut'
-  },
-  labels: donutLabels,
-  responsive: [{
-    breakpoint: 480,
-    options: {
-      legend: {
-        position: 'bottom'
-      }
-    }
-  }]
-})
 
 const lineGroupBy = ref(props.line_group_by || 'month')
+const lineSelectedMonth = ref(props.line_selected_month || new Date().toISOString().slice(0, 7))
 
 function onLineGroupChange() {
-  router.visit(route('dashboard.report'), {
-    data: { line_group_by: lineGroupBy.value },
-    only: ['line_chart_data', 'line_group_by'],
+  const data = { line_group_by: lineGroupBy.value }
+  if (lineGroupBy.value === 'day') {
+    data.line_selected_month = lineSelectedMonth.value
+    console.log(lineSelectedMonth.value);
+  }
+  
+  router.reload({ // Khusus ke halaman yg sama biar bisa pake preserveScroll
+    data: data,
+    only: ['line_chart_data', 'line_group_by', 'line_selected_month'],
     preserveScroll: true,
-    // preserveState: true,
   })
 }
 
-const lineLabels = props.line_chart_data.map(item => item.label);
-const lineSeries = [
-  {
-    name: 'Total Penjualan',
-    type: 'column',
-    data: props.line_chart_data.map(item => Number(item.total_penjualan)),
-  },
-  {
-    name: 'Jumlah Transaksi',
-    type: 'line',
-    data: props.line_chart_data.map(item => Number(item.jumlah_transaksi)),
+function onMonthChange() {
+  if (lineGroupBy.value === 'day') {
+    onLineGroupChange()
   }
-];
-
-const lineOptions = {
-  chart: {
-    type: 'line',
-    zoom: {
-      enabled: false
-    },
-  },
-  title: {
-    text: 'Data Penjualan Bulanan',
-    align: 'left'
-  },
-  xaxis: {
-    categories: lineLabels,
-  },
-  yaxis: [
-    {
-      labels: {
-        formatter: (val) => 'Rp. ' + val.toLocaleString('id-ID'),
-      }
-    }, 
-    {
-      opposite: true,
-      labels: {
-      formatter: val => Math.round(val)
-    }
-    }],
-  markers: {
-    size: 1
-  },
-  dataLabels: {
-    enabled: true,
-    formatter: function(val, opts) {
-      if (opts.seriesIndex === 0) return 'Rp. ' + val.toLocaleString('id-ID'); // Biar Total Penjualan aja yg ada Rp. nya
-      else return val;
-    },
-  },
-  legend: {
-    position: 'top',
-    horizontalAlign: 'right',
-    floating: true,
-    offsetY: -25,
-    offsetX: -5
-  }
-};
+}
 </script>
 
 <template>
@@ -157,11 +92,7 @@ const lineOptions = {
         <h1 class="text-2xl font-bold">Laporan Penjualan</h1>
         <div>
           <label class="mr-2">Sortir:</label>
-          <select
-            v-model="groupBy"
-            @change="onGroupChange"
-            class="border rounded px-3 py-2"
-          >
+          <select v-model="groupBy" @change="onGroupChange" class="border rounded px-3 py-2">
             <option value="date">Per Hari</option>
             <option value="month">Per Bulan</option>
             <option value="product">Per Produk per Hari</option>
@@ -180,10 +111,7 @@ const lineOptions = {
         </thead>
         <tbody>
           <template v-for="produk in produkList" :key="produk.nama_produk">
-            <tr
-              class="cursor-pointer hover:bg-gray-50"
-              @click="toggleProduk(produk.nama_produk)"
-            >
+            <tr class="cursor-pointer hover:bg-gray-50" @click="toggleProduk(produk.nama_produk)">
               <td class="px-4 py-2 border">{{ produk.nama_produk }}</td>
               <td class="px-4 py-2 border text-center">{{ produk.total_terjual }}</td>
               <td class="px-4 py-2 border text-center">Rp {{ produk.total_penjualan.toLocaleString() }}</td>
@@ -192,16 +120,13 @@ const lineOptions = {
               </td>
             </tr>
 
-           <tr v-if="openProduk === produk.nama_produk">
+            <tr v-if="openProduk === produk.nama_produk">
               <td colspan="4" class="bg-gray-50 px-6 py-4 space-y-4">
                 <div class="flex flex-col md:flex-row gap-4 items-start md:items-center">
                   <div>
                     📅 <label class="mr-2 font-medium">Pilih Tanggal:</label>
-                    <input
-                      type="date"
-                      @change="e => fetchProdukReport(produk.nama_produk, e.target.value)"
-                      class="border px-2 py-1 rounded"
-                    />
+                    <input type="date" @change="e => fetchProdukReport(produk.nama_produk, e.target.value)"
+                      class="border px-2 py-1 rounded" />
                   </div>
                   <div>
                     🛒 <strong>Total Terjual:</strong>
@@ -213,24 +138,18 @@ const lineOptions = {
                   </div>
                 </div>
 
-                <hr class="my-4"/>
+                <hr class="my-4" />
 
                 <div class="flex flex-col md:flex-row gap-4 items-start md:items-center">
                   <div>
                     📆 <label class="mr-2 font-medium">Rentang Tanggal:</label>
-                        <input
-                          type="date"
-                          v-model="startDates[produk.nama_produk]"
-                          @change="() => fetchProdukReportByDateRange(produk.nama_produk, startDates[produk.nama_produk], endDates[produk.nama_produk])"
-                          class="border px-2 py-1 rounded mr-2"
-                        />
-                        s/d
-                        <input
-                          type="date"
-                          v-model="endDates[produk.nama_produk]"
-                          @change="() => fetchProdukReportByDateRange(produk.nama_produk, startDates[produk.nama_produk], endDates[produk.nama_produk])"
-                          class="border px-2 py-1 rounded ml-2"
-                        />
+                    <input type="date" v-model="startDates[produk.nama_produk]"
+                      @change="() => fetchProdukReportByDateRange(produk.nama_produk, startDates[produk.nama_produk], endDates[produk.nama_produk])"
+                      class="border px-2 py-1 rounded mr-2" />
+                    s/d
+                    <input type="date" v-model="endDates[produk.nama_produk]"
+                      @change="() => fetchProdukReportByDateRange(produk.nama_produk, startDates[produk.nama_produk], endDates[produk.nama_produk])"
+                      class="border px-2 py-1 rounded ml-2" />
                   </div>
                   <div>
                     🛒 <strong>Total Terjual:</strong>
@@ -265,19 +184,23 @@ const lineOptions = {
       </table>
     </div>
 
-<!-- <div class="flex flex-col items-center space-y-2 md:flex-row md:justify-between md:space-x-2 md:space-y-0 my-2 "> -->
+    <!-- <div class="flex flex-col items-center space-y-2 md:flex-row md:justify-between md:space-x-2 md:space-y-0 my-2 "> -->
     <div class="grid md:grid-cols-2 md:space-x-5 space-y-2 md:space-y-0 my-2">
+      <Chart class="bg-white p-6 rounded shadow" chartMode="pie" :donutData="props.donut_chart_data"></Chart>
       <div class="bg-white p-6 rounded shadow">
-        <apexchart class="flex justify-center " width="80%" type="pie" :options="donutOptions" :series="donutSeries"></apexchart>
-      </div>
-      <div class="bg-white p-6 rounded shadow">
-        <label class="mr-2">Sortir:</label>
-        <select v-model="lineGroupBy" @change="onLineGroupChange" class="border rounded px-3 py-2">
-          <option value="day">Per Hari</option>
-          <option value="month">Per Bulan</option>
-        </select>
-        <input v-if="lineGroupBy === 'day'" class="border rounded px-3 py-2" type="month" name="" id="">
-        <apexchart class="flex justify-center items-center" width="100%" type="line" :options="lineOptions" :series="lineSeries"></apexchart>
+        <div class="mb-4 flex flex-wrap items-center gap-2">
+          <label class="mr-2">Sortir:</label>
+          <select v-model="lineGroupBy" @change="onLineGroupChange" class="border rounded px-3 py-2">
+            <option value="day">Per Hari</option>
+            <option value="month">Per Bulan</option>
+          </select>
+          <div v-if="lineGroupBy === 'day'" class="flex items-center gap-2">
+            <label class="">Bulan:</label>
+            <input v-model="lineSelectedMonth" @change="onMonthChange" class="border rounded px-3 py-2" type="month"
+              name="selected_month" id="selected_month">
+          </div>
+        </div>
+        <Chart chartMode="line" :line-data="line_chart_data" :line_group_by="line_group_by" :line_selected_month="line_selected_month"></Chart>
       </div>
     </div>
   </DashboardLayout>

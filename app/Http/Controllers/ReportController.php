@@ -22,25 +22,29 @@ class ReportController extends Controller
             ->get();
 
         // LineChart
-        $groupByLineData = $request->get('line_group_by', 'month');
+        $lineGroupBy = $request->get('line_group_by', 'month');
+        $lineSelectedMonth = $request->get('line_selected_month') ?: now()->format('Y-m');
+    
+        $selectFormat = $lineGroupBy === 'month'
+            ? "DATE_FORMAT(created_at, '%Y-%m')"
+            : "DATE(created_at)";
 
-        if ($groupByLineData === 'month') {
-            $selectLineDataFormat = "DATE_FORMAT(created_at, '%b %y')"; // e.g. Jan 24
-            $orderByFormat = "STR_TO_DATE(label, '%b %y')";
-        } else {
-            $selectLineDataFormat = "DATE_FORMAT(created_at, '%d %b %y')"; // e.g. 15 Jan 24
-            $orderByFormat = "STR_TO_DATE(label, '%d %b %y')";
-        }
-
-        $lineData = Order::selectRaw("
-                {$selectLineDataFormat} as label,
+        $query = Order::selectRaw("
+                {$selectFormat} as label,
                 SUM(total_harga) as total_penjualan,
                 COUNT(*) as jumlah_transaksi
             ")
-            ->where('status_pemesanan', 'Selesai')
-            ->groupByRaw($selectLineDataFormat)
-            ->orderByRaw("{$orderByFormat} ASC")
-            ->get();
+            ->where('status_pemesanan', 'Selesai');
+
+        if ($lineGroupBy === 'day') {
+            [$year, $month] = explode('-', $lineSelectedMonth);
+            $query->whereRaw('MONTH(created_at) = ?', [$month])
+                    ->whereRaw('YEAR(created_at) = ?', [$year]);
+        }
+
+        $lineChartData = $query->groupByRaw($selectFormat)
+                        ->orderBy('label')
+                        ->get();
 
         if ($groupBy === 'product') {
             $produkList = OrderDetail::selectRaw('
@@ -58,8 +62,9 @@ class ReportController extends Controller
                 'data' => [],
                 'produkList' => $produkList,
                 'donut_chart_data' => $donutChartData,
-                'line_chart_data' => $lineData,
-                'line_group_by' => $groupByLineData,
+                'line_chart_data' => $lineChartData,
+                'line_group_by' => $lineGroupBy,
+                'line_selected_month' => $lineSelectedMonth,
                 'group_by' => $groupBy,
             ]);
         }
@@ -82,8 +87,9 @@ class ReportController extends Controller
             'data' => $data,
             'produkList' => [],
             'donut_chart_data' => $donutChartData,
-            'line_chart_data' => $lineData,
-            'line_group_by' => $groupByLineData,
+            'line_chart_data' => $lineChartData,
+            'line_group_by' => $lineGroupBy,
+            'line_selected_month' => $lineSelectedMonth,
             'group_by' => $groupBy,
         ]);
 

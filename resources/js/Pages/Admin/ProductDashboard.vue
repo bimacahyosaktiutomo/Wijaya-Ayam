@@ -1,7 +1,7 @@
 <script setup>
 import DashboardLayout from '@/Layouts/DashboardLayout.vue';
 import { usePage, Link, router, Head } from '@inertiajs/vue3';
-const { products } = usePage().props;
+const { products } = usePage().props; // biar gak pake props.xxxxxxx
 </script>
 
 <template>
