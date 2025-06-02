@@ -238,7 +238,7 @@ Bimasakti Cahyo - [GitHub](https://github.com/bimacahyosaktiutomo) - [Email](bim
 
 Muhammad Ifandi - [GitHub](https://github.com/Mifandi) - [Email](mifandi68@gmail.com)
 
-Maulana Agus S. - [GitHub](https://github.com/NatanaelPLHN) - [Email](maulana.agss@gmail.com)
+Maulana Agus S. - [GitHub](https://github.com/maulanaasetiawan) - [Email](maulana.agss@gmail.com)
 
 Project Link: https://github.com/bimacahyosaktiutomo/Wijaya-Ayam
 
