@@ -128,6 +128,7 @@ _Follow the command below with your terminal/cmd/git bash._
 7. Run the project
    ```bash
    php artisan serve
+   npm run dev
    ```
    
 ## 📖 Project Report
