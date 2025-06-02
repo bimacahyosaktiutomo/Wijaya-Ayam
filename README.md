@@ -16,19 +16,16 @@
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
-  <a href="https://github.com/bimacahyosaktiutomo/Wijaya-Ayam.git">
-    <img src="tokom\tokom\static\asset\tokom.png" alt="Logo" width="100%" >
+  <a href="https://github.com/bimacahyosaktiutomo/Wijaya-Ayam.git" style="background-color: #f0f0f0;">
+    <img 
+      src="public/assets/favicon.ico" 
+      alt="Logo" 
+      width="128" 
+      height="128" 
+      style="background-color: #f0f0f0; padding: 8px; border-radius: 8px;">
   </a>
 
   <h3 align="center">Website Toko Komputer</h3>
-
-  <p align="center">
-    Project Akhir Praktikum Framework Based Programming
-    <br />
-    <a href="https://github.com/bimacahyosaktiutomo/PA-FRAMEWORK-TOKOM/issues/new?labels=bug">Report Bug</a>
-    ·
-    <a href="https://github.com/bimacahyosaktiutomo/PA-FRAMEWORK-TOKOM/issues/new?labels=enhancement">Request Feature</a>
-  </p>
 </div>
 
 
@@ -104,76 +101,94 @@ _Follow the command below with your terminal/cmd/git bash._
 
 1. Clone the repository
    ```bash
-   git clone https://github.com/bimacahyosaktiutomo/PA-FRAMEWORK-TOKOM
+   git clone https://github.com/bimacahyosaktiutomo/Wijaya-Ayam
    ```
 2. Change Directory into tokom
    ```bash
-   cd tokom
+   cd Wijaya-Ayam
+   composer install
    ```
-3. Install the requirements
+3. Set up the environment
    ```bash
-   pip install -r requirements.txt
+   cp .env.example .env
+   php artisan key:generate
    ```
-4. Run the migration
+4. Install the dependencies
    ```bash
-   py manage.py makemigrations
-   py manage.py migrate
+   npm install
    ```
-5. Run the project
+5.  Run the migration
    ```bash
-   py manage.py runserver
+   php artisan migrate
+   ```
+6. Run the project
+   ```bash
+   php artisan serve
    ```
    
 ## 📖 Project Report
 
 ### 🏠 Home Page
-![Home Page](https://github.com/user-attachments/assets/db4cafc5-9ad5-48d6-a2fa-0691eae17648)
-
----
-
-### 🔍 Search
-![Search Page](https://github.com/user-attachments/assets/1d4f6e4e-edc9-43ec-8a50-63f04d198523)
+![Home Page](https://github.com/user-attachments/assets/cc5faecf-8f03-4f5b-98b3-09a23488e4a2)
 
 ---
 
 ### 🔑 Login
-![Login Page](https://github.com/user-attachments/assets/622d002c-730b-486d-a697-14f8ed95bad7)
+![Login Page](https://github.com/user-attachments/assets/672ce828-07b3-436c-b896-47cad2bd25ab)
+
 
 ---
 
 ### 📝 Register
-![Register Page](https://github.com/user-attachments/assets/fac516a0-768b-4c7c-a632-62b8cb484684)
+![Register Page](https://github.com/user-attachments/assets/a2856bb3-5f39-4211-b20a-7964e44bba8d)
+
 
 ---
 
 ### 🛒 Cart
-![Cart Page](https://github.com/user-attachments/assets/f04438e5-a102-4a72-9313-314744737d1b)
+![Cart Page](https://github.com/user-attachments/assets/e4a782a9-694d-488c-bd83-59828517581e)
+
 
 ---
 
 ### ✅ Checkout
-![Checkout Page](https://github.com/user-attachments/assets/d33cb9cb-1361-4381-8af6-c75f2664cf6e)
+![Checkout Page](https://github.com/user-attachments/assets/893cd6c8-285f-43ca-ba5d-3752d57a9ca6)
 
----
-
-### 🎉 Order Success
-![Order Success Page](https://github.com/user-attachments/assets/cc987443-684f-4525-ad93-f37d0d7f9227)
 
 ---
 
 ### 📜 Order History
-![Order History Page](https://github.com/user-attachments/assets/2cb4e5cb-dcba-475e-a715-8333ade0eeea)
+![Order History Page](https://github.com/user-attachments/assets/010b0744-2e75-4f17-8af0-8762d2e918a1)
+
 
 ---
 
 ### 📋 Order Details
-![Order Details Page](https://github.com/user-attachments/assets/b6e23ae9-bb1b-428e-b516-41f6b08cc3e1)
+![Order Details Page](https://github.com/user-attachments/assets/2fc6b883-65b1-4d1b-8317-2cec9e6f2c68)
+
 
 ---
 
 ### ⚙️ Admin Dashboard
-![Admin Dashboard](https://github.com/user-attachments/assets/d840090c-a6e9-4e8e-a2d3-c154593974f0)
+![Admin Dashboard](https://github.com/user-attachments/assets/c6a23c94-795d-409a-8861-0634cf255275)
 
+---
+
+### 📜 Report
+#### 📆 Penjualan Bulanan (Juni 2025)
+![ChartJune2025](https://github.com/user-attachments/assets/2efdfb60-6831-4e69-83e5-4f8e08d9fb5a)
+#### 📈 Penjualan per Bulan
+![PerBulan](https://github.com/user-attachments/assets/04d659d2-3186-4622-9be2-c87469bc4ee4)
+#### 📉 Penjualan per Hari
+![PerHari](https://github.com/user-attachments/assets/7b4119bf-19fd-47c2-8fd1-aae5b86a3d81)
+#### 🍗 Penjualan per Produk
+![PerProduk](https://github.com/user-attachments/assets/1b0f1688-2944-4be6-a088-08946b57041e)
+#### 📅 Penjualan per Produk (Rentang Tanggal)
+![PerProduk_SelectRentangTanggal](https://github.com/user-attachments/assets/4232c2b1-2457-48a8-8168-7f8ff01f48d6)
+#### 📍 Penjualan per Produk (Tanggal Spesifik)
+![PerProduk_SelectTanggal](https://github.com/user-attachments/assets/dc954a4a-b0ef-46bf-9f6a-3a03c01f82f2)
+
+---
 
 <!-- ROADMAP -->
 ## Roadmap
@@ -182,7 +197,7 @@ _Follow the command below with your terminal/cmd/git bash._
 
 - [x] **User Registration & Authentication**: 
     - [x] Enable user registration, login, and logout functionality.
-    - [x] Implement user roles (Admin, Worker, Customer) for access control.
+    - [x] Implement user roles (Admin and Customer) for access control.
     - [x] Admin users can elevate regular users to "Worker" status.
 
 - [x] **Shopping Cart & Checkout**: 
@@ -211,9 +226,11 @@ _Follow the command below with your terminal/cmd/git bash._
 </a>
 
 
-1. 2209106021 - Bimasakti Cahyo Utomo
+1. 2209106006 - Muhammad Ifandi
    
-2. 2209106029 - Natanael Primus Lung H.N
+3. 2209106021 - Bimasakti Cahyo Utomo
+
+4. 2209106024 - Maulana Agus Setiawan
 
 <!-- CONTACT -->
 ## Contact
