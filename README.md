@@ -228,18 +228,18 @@ _Follow the command below with your terminal/cmd/git bash._
 
 1. 2209106006 - Muhammad Ifandi
    
-3. 2209106021 - Bimasakti Cahyo Utomo
+2. 2209106021 - Bimasakti Cahyo Utomo
 
-4. 2209106024 - Maulana Agus Setiawan
+3. 2209106024 - Maulana Agus Setiawan
 
 <!-- CONTACT -->
 ## Contact
 
 Bimasakti Cahyo - [GitHub](https://github.com/bimacahyosaktiutomo) - [Email](bimasakticahyoutomo@gmail.com)
 
-Natanael P.L - [GitHub](https://github.com/NatanaelPLHN) - [Email](natannaelprimuslung@example.com)
+Muhammad Ifandi - [GitHub](https://github.com/Mifandi) - [Email](mifandi68@gmail.com)
 
-Maulana Agus S. - 
+Maulana Agus S. - [GitHub](https://github.com/NatanaelPLHN) - [Email](maulana.agss@gmail.com)
 
 Project Link: https://github.com/bimacahyosaktiutomo/Wijaya-Ayam
 
