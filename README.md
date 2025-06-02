@@ -25,7 +25,7 @@
       style="background-color: #f0f0f0; padding: 8px; border-radius: 8px;">
   </a>
 
-  <h3 align="center">Website Toko Komputer</h3>
+  <h3 align="center">Website Penjualan Daging Ayam</h3>
 </div>
 
 
