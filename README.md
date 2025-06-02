@@ -121,7 +121,11 @@ _Follow the command below with your terminal/cmd/git bash._
    ```bash
    php artisan migrate
    ```
-6. Run the project
+6. Run the storage link
+   ```bash
+   php artisan storage:link
+   ```
+7. Run the project
    ```bash
    php artisan serve
    ```
@@ -198,7 +202,6 @@ _Follow the command below with your terminal/cmd/git bash._
 - [x] **User Registration & Authentication**: 
     - [x] Enable user registration, login, and logout functionality.
     - [x] Implement user roles (Admin and Customer) for access control.
-    - [x] Admin users can elevate regular users to "Worker" status.
 
 - [x] **Shopping Cart & Checkout**: 
     - [x] Implement a **session** based cart system.
@@ -209,10 +212,6 @@ _Follow the command below with your terminal/cmd/git bash._
     - [x] Allow users to view their order history.
     - [x] Display order details, including item details, quantities, and total price.
     - [x] Users can track and change the status of their orders (Ongoing, Arrived).
-          
-- [x] **Reviews & Ratings**: 
-    - [x] Enable user registration, login, and logout functionality.
-    - [x] Display reviews and ratings on product pages.
 
 - [x] **Responsive & User-Friendly Interface**: 
     - [x] Clear and intuitive UI for navigating products, cart, checkout, and order history.
@@ -221,16 +220,16 @@ _Follow the command below with your terminal/cmd/git bash._
 <!-- CONTRIBUTING -->
 ## Contributors 
 
-<a href="https://github.com/bimacahyosaktiutomo/PA-FRAMEWORK-TOKOM/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=bimacahyosaktiutomo/PA-FRAMEWORK-TOKOM" alt="contrib.rocks image" />
+<a href="https://github.com/bimacahyosaktiutomo/Wijaya-Ayam/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=bimacahyosaktiutomo/Wijaya-Ayam" />
 </a>
 
 
-1. 2209106006 - Muhammad Ifandi
+1. 2209106021 - Bimasakti Cahyo Utomo 
    
-2. 2209106021 - Bimasakti Cahyo Utomo
+2. 2209106024 - Maulana Agus Setiawan 
 
-3. 2209106024 - Maulana Agus Setiawan
+3. 2209106006 - Muhammad Ifandi
 
 <!-- CONTACT -->
 ## Contact
