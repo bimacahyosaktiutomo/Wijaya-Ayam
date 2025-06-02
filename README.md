@@ -16,7 +16,7 @@
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
-  <a href="https://github.com/bimacahyosaktiutomo/PA-FRAMEWORK-TOKOM.git">
+  <a href="https://github.com/bimacahyosaktiutomo/Wijaya-Ayam.git">
     <img src="tokom\tokom\static\asset\tokom.png" alt="Logo" width="100%" >
   </a>
 
@@ -64,16 +64,33 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-**tokom** is a modern and user-friendly online store designed for buying and selling laptops and related computer accessories. Built using the Django framework, the platform aims to simplify the shopping experience while providing a robust backend for managing products, orders, and user interactions.
+**Wijaya Ayam** is a modern and user-friendly online store designed for buying and selling chicken meat. Built using the Laravel framework and vue.js, the platform aims to simplify the shopping experience while providing a robust backend for managing products, orders, and user interactions.
 
 ### Built With
 
 <!-- This section should list any major frameworks/libraries used to bootstrap your project. Leave any add-ons/plugins for the acknowledgements section. Here are a few examples. -->
 
-- [![Django][Django]][Django-url]
+- [![Laravel][Laravel]][Laravel-url]
+- [![VueJS][VueJS]][VueJS-url]
 - [![Tailwind][Tailwind]][Tailwind-url]
 - [![DaisyUI][DaisyUI]][DaisyUI-url]
 - [![NodeJS][NodeJS]][Nodeurl]
+
+[Laravel]: https://img.shields.io/badge/Laravel-F55247?style=for-the-badge&logo=laravel&logoColor=white
+[Laravel-url]: https://laravel.com/
+
+[VueJS]: https://img.shields.io/badge/Vue.js-35495E?style=for-the-badge&logo=vue.js&logoColor=4FC08D
+[VueJS-url]: https://vuejs.org/
+
+[Tailwind]: https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white
+[Tailwind-url]: https://tailwindcss.com/
+
+[DaisyUI]: https://img.shields.io/badge/DaisyUI-FF69B4?style=for-the-badge&logo=daisyui&logoColor=white
+[DaisyUI-url]: https://daisyui.com/
+
+[NodeJS]: https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white
+[Nodeurl]: https://nodejs.org/
+
   
 <!-- GETTING STARTED -->
 ## Getting Started
