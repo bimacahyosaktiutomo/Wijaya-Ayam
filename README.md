@@ -239,7 +239,9 @@ Bimasakti Cahyo - [GitHub](https://github.com/bimacahyosaktiutomo) - [Email](bim
 
 Natanael P.L - [GitHub](https://github.com/NatanaelPLHN) - [Email](natannaelprimuslung@example.com)
 
-Project Link: https://github.com/bimacahyosaktiutomo/PA-FRAMEWORK-TOKOM
+Maulana Agus S. - 
+
+Project Link: https://github.com/bimacahyosaktiutomo/Wijaya-Ayam
 
 <!-- ACKNOWLEDGMENTS -->
 ## Acknowledgments
