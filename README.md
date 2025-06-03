@@ -183,9 +183,9 @@ _Follow the command below with your terminal/cmd/git bash._
 #### 📆 Penjualan Bulanan (Juni 2025)
 ![ChartJune2025](https://github.com/user-attachments/assets/2efdfb60-6831-4e69-83e5-4f8e08d9fb5a)
 #### 📈 Penjualan per Bulan
-![PerBulan](https://github.com/user-attachments/assets/04d659d2-3186-4622-9be2-c87469bc4ee4)
+![PerBulan](https://github.com/user-attachments/assets/37bc1380-050b-414a-9a5c-6203d3122c0d)
 #### 📉 Penjualan per Hari
-![PerHari](https://github.com/user-attachments/assets/7b4119bf-19fd-47c2-8fd1-aae5b86a3d81)
+![PerHari](https://github.com/user-attachments/assets/93961a76-0d63-4049-b318-290bcd5115dd)
 #### 🍗 Penjualan per Produk
 ![PerProduk](https://github.com/user-attachments/assets/1b0f1688-2944-4be6-a088-08946b57041e)
 #### 📅 Penjualan per Produk (Rentang Tanggal)
